@@ -1,7 +1,14 @@
-const sortModel = require('../models/products')
-const deleteModel = require('../models/products')
+const getModel = require('../models/products')
 const form = require('../helpers/form')
 module.exports = {
+  showAll:(req,res) => {
+    getModel.allProduct()
+    .then((data) => {
+      form.success(res, data)
+    }).catch((err) => {
+      form.error(res, err)
+    })
+  },
   sortProduct: (req, res) => {
     const { sortBy, orderBy } = req.query;
 
@@ -15,17 +22,17 @@ module.exports = {
       }
     }
 
-    sortModel.sortProduct(addQuery)
+    getModel.sortProduct(addQuery)
       .then((data) => {
         form.success(res, data)
       })
       .catch((err) => {
-        form.success(res, err)
+        form.error(res, err)
       })
   },
   deleteProduct: (req, res) => {
     const { id } = req.query
-    deleteModel.deleteProduct(id)
+    getModel.deleteProduct(id)
       .then((data) => {
         const output = {
           deletedId: id,
