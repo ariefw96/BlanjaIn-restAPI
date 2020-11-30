@@ -6,7 +6,14 @@ const db = require('../config/mySQL')
 productRouter.get('/:id', (req, res) => {
     const { id } = req.params
     const getById = new Promise((resolve, reject) => {
-        const queryStr = "SELECT m.id, p.product_name, c.category_name, pc.color_name, ps.size_name, pco.condition_name, p.product_desc, p.product_img, m.qty, m.created_at, m.updated_at FROM master m JOIN products p ON m.product_id = p.id JOIN category c ON p.category_id = c.id JOIN color pc ON m.color_id = pc.id JOIN size ps ON m.size_id = ps.id JOIN conditions pco ON m.condition_id = pco.id WHERE m.id = ?"
+        const queryStr = `SELECT m.product_id, p.product_name, c.category_name, pc.color_name, ps.size_name, pco.condition_name, p.product_desc, p.product_img, m.qty, m.created_at, m.updated_at 
+        FROM master m JOIN products p ON m.product_id = p.id 
+        JOIN category c ON p.category_id = c.id 
+        JOIN color pc ON m.color_id = pc.id 
+        JOIN size ps ON m.size_id = ps.id 
+        JOIN conditions pco ON m.condition_id = pco.id 
+        WHERE m.product_id = ?
+        GROUP BY m.product_id`
         db.query(queryStr, id , (err, data) => {
             if (!err) {
                 resolve(data)
@@ -141,22 +148,5 @@ productRouter.get("/get_color/:id", (req, res) => {
     })
 })
 
-productRouter.get("/get_max_qty/:id", (req, res) => {
-    const {id} = req.params
-    const getMaxQty = new Promise ((resolve, reject) => {
-        const queryStr = `SELECT MAX(qty) FROM master WHERE product_id = ?`
-        db.query(queryStr, id, (err, data) => {
-            if(!err){
-                resolve(data)
-            }else{
-                reject(err)
-            }
-        })
-    }).then((result) => {
-        res.json(result)
-    }).catch((error) => {
-        res.json(error)
-    })
-})
 
 module.exports = productRouter
