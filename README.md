@@ -36,7 +36,7 @@ npm install morgan
 1. Clone repository
   
   ```
-  git clone https://github.com/agungl4/blanja-REST-API.git
+  git clone https://github.com/ariefw96/blanja-restAPI-backup
   ```
   
 2. Install additional package
