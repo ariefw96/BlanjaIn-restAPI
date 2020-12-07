@@ -1,10 +1,12 @@
 const mysql = require('mysql')
 // koneksi ke db
+
+const {HOST, USER, PASS, DB} = process.env
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'blanja'
+    host: HOST,
+    user: USER,
+    password: PASS,
+    database: DB
 })
 
 // cek koneksi ke db

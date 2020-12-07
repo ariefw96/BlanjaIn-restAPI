@@ -203,6 +203,5 @@ productRouter.get("/get_color/:id", (req, res) => {
 })
 
 
-productRouter.get
 
 module.exports = productRouter

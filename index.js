@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const logger = require('morgan');
 const app = express();
@@ -5,6 +6,8 @@ const port = 8000
 const db = require('./src/config/mySQL')
 const mainRouter = require('./src/routes/index')
 const cors = require('cors')
+
+
 
 // listen port
 app.listen(port, () => {
