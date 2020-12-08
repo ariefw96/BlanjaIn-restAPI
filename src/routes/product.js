@@ -2,17 +2,20 @@ const express = require('express')
 const productRouter = express.Router()
 const productController = require('../controllers/product')
 
+const multiUpload = require ('../helpers/uploadImg')
+
 //get by id
 productRouter.get('/:id', productController.getById )
 
+const checkToken = require('./../helpers/checkToken')
 //add New Product
-productRouter.post("/add-product", productController.addNew)
+productRouter.post("/add-product",checkToken.isSeller, multiUpload, productController.addNew)
 //add from Existing Product
-productRouter.post("/add-stock", productController.addExisting) 
+productRouter.post("/add-stock",checkToken.isSeller, productController.addExisting) 
 //update pivot
-productRouter.patch("/update", productController.updateProduct)
+productRouter.patch("/update/:id",checkToken.isSeller, productController.updateProduct)
 //delete
-productRouter.delete("/delete/:id", productController.deleteProduct)
+productRouter.delete("/delete/:id",checkToken.isSeller, productController.deleteProduct)
 
 
 

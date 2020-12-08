@@ -13,10 +13,23 @@ module.exports = {
             })
     },
     addNew: (req, res) => {
-        const insert_product = req.body
+        let insert_product = req.body
+        insert_product = {
+            ...insert_product,
+            product_img: req.filePath
+        }
+
+        const res_img = req.filePath.split(",")
+        const Product_inserted = {
+            ...insert_product,
+            product_img:res_img
+        }
         productModel.addNew(insert_product)
             .then((data) => {
-                form.success(res, data)
+                form.success(res, {
+                    ...data,
+                    Product_inserted
+                })
             }).catch((err) => {
                 form.error(res, err)
             })
@@ -31,7 +44,7 @@ module.exports = {
             })
     },
     updateProduct: (req, res) => {
-        const { id } = req.body
+        const { id } = req.params //update ID at req.params
         const { body } = req
         const updatePatch = {
             ...body,
@@ -56,10 +69,10 @@ module.exports = {
             deletedId: id,
             msg: data
           }
-          res.json(output)
+          form.success(res, output)
         })
         .catch((err) => {
-          res.json(err);
+          form.error(res, err)
         })
     },
     getSize: (req, res) => {

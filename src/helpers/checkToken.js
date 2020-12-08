@@ -22,7 +22,7 @@ module.exports = {
                             resolve(token)
                         } else {
                             reject({
-                                msg: `Invalid token => ${data[0].token}, cannot user anymore. Already logout`
+                                msg: `Invalid token(Expired),either you not login yet or already logout`
                             })
                         }
                     } else {

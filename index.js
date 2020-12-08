@@ -14,6 +14,9 @@ app.listen(port, () => {
     console.log(`server running in port ${port}`);
 })
 
+//memperbolehkan akses dari semua origin
+app.use(express.static('public'))
+
 //use cors
 app.use(cors())
 

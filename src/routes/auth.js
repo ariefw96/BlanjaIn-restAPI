@@ -2,9 +2,11 @@ const express = require('express')
 const authController = require ('../controllers/auth')
 const authRouter = express.Router()
 
+const checkToken = require('../helpers/checkToken')
+
 authRouter.post("/signup", authController.signup)
 authRouter.post("/login", authController.login)
-authRouter.post("/logout", authController.logout)
+authRouter.post("/logout",checkToken.isLogin, authController.logout)
 
 
 

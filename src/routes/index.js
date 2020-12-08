@@ -12,11 +12,11 @@ const checkToken = require('./../helpers/checkToken')
 
 //calling endpoint handler
 mainRouter.use("/", welcomeRouter)
-mainRouter.use("/products",checkToken.isLogin,checkToken.isSeller, productsRouter) // endpoint sort
+mainRouter.use("/products", productsRouter) // endpoint sort
 
 
 //mau nyoba blocking akses CRUD product kalo bukan level seller
-mainRouter.use("/product",checkToken.isLogin,checkToken.isSeller, productRouter) // endpoint insert, update
+mainRouter.use("/product",checkToken.isLogin, productRouter) // endpoint insert, update
 
 
 mainRouter.use("/search", searchRouter) // endpoint filter

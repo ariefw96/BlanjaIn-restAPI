@@ -8,7 +8,7 @@ module.exports = {
             .then((result) => {
                 form.success(res, result)
             }).catch((error) => {
-                res.json(error)
+                form.error(res, error)
             })
     },
     login: (req, res) => {
@@ -16,13 +16,11 @@ module.exports = {
         authModel.postLogin(body)
             .then((result) => {
                 form.success(res,{
-                    status: 200,
                     msg: `Sukses Login`,
                     tokenId: result
                 })
             }).catch((error) => {
                 form.error(res,{
-                    status: 401,
                     msg: `Gagal login`,
                     errMsg: error
                 })
@@ -41,12 +39,9 @@ module.exports = {
 
             authModel.postLogout(blacklisToken)
                 .then((result) => {
-                    res.json({
-                        status: 204,
-                        msg: `Logout successfull`
-                    })
+                    form.success(res, result)
                 }).catch((error) => {
-                    res.json(error)
+                    form.error(res, error)
                 })
         }
     }

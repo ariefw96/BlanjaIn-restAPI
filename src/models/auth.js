@@ -17,7 +17,10 @@ module.exports = {
                             msg: `Username ${body.username} telah berhasil didaftarkan, silahkan login.`
                         })
                     } else {
-                        reject(err)
+                        reject({
+                            msg: `ERROR!`,
+                            details: err
+                        })
                     }
                 })
             })
@@ -78,9 +81,13 @@ module.exports = {
             const queryStr = "INSERT INTO blacklist_token SET ?"
             db.query(queryStr, blacklisToken, (err, data) => {
                 if (!err) {
-                    resolve(data)
+                    resolve({
+                        msg: `Logout succesful`
+                    })
                 } else {
-                    reject(err)
+                    reject({
+                        msg: `GAGAL!`
+                    })
                 }
             })
         })
