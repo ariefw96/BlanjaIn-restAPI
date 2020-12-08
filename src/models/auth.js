@@ -5,7 +5,7 @@ const jsonwebtoken = require('jsonwebtoken')
 module.exports = {
     postNewUser: (body) => {
         return new Promise((resolve, reject) => {
-            const saltRounds = 5
+            const saltRounds = Math.floor(Math.random() * 10)+1
             //hashPw
             bcrypt.hash(body.password, saltRounds, (err, hashedPassword) => {
                 //generate newBody from newPw
@@ -26,7 +26,7 @@ module.exports = {
     postLogin: (body) => {
         return new Promise((resolve, reject) => {
             const { username, password } = body
-            const queryStr = "SELECT username, password, level_id FROM tb_user WHERE username = ?"
+            const queryStr = "SELECT id, username, password, level_id FROM tb_user WHERE username = ?"
             db.query(queryStr, username, (err, data) => {
                 console.log(data)
                 //error queryData
@@ -57,6 +57,7 @@ module.exports = {
                         } else {
                             //sign result to payload jwt
                             const payload = {
+                                user_id: data[0].id,
                                 username,
                                 level: data[0].level_id
                             }

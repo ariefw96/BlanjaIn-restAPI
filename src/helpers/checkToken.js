@@ -7,9 +7,7 @@ module.exports = {
     isLogin: (req, res, next) => {
         const bearerToken = req.header("x-access-token");
         //jika tidak ada header x-access-token
-        console.log('disini cek token')
         if (!bearerToken) {
-            console.log('token kosong')
             res.json({
                 msg: `Please login first`,
                 status: 401 //unauthorized access
@@ -23,7 +21,6 @@ module.exports = {
                         if (!data[0]) {
                             resolve(token)
                         } else {
-                            console.log('token blacklisted')
                             reject({
                                 msg: `Invalid token => ${data[0].token}, cannot user anymore. Already logout`
                             })
@@ -36,11 +33,11 @@ module.exports = {
                 })
             }).then((result) => {
                 //cek decodedToken apakah cocok
-                console.log('token jwt.verify')
                 try {
                     decodedToken = jsonwebtoken.verify(result, process.env.SECRET_KEY)
                     //asign decodedToken to req
                     req.decodedToken = decodedToken
+
                     next() //meneruskan ke proses selanjutnya
                 } catch (err) {
                     res.json({
@@ -55,7 +52,6 @@ module.exports = {
     isSeller: (req, res, next) => {
         const { level } = req.decodedToken
         if (level != 2) {
-            console.log(`True`)
             form.error(res,
                 {
                     status: 401,
@@ -64,7 +60,6 @@ module.exports = {
                 }
             )
         } else {
-            console.log(`False`)
             next()
         }
     }

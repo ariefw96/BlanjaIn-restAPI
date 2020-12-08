@@ -13,8 +13,6 @@ module.exports = {
             })
     },
     addNew: (req, res) => {
-        console.log(req.decodedToken)
-        console.log(req.body) // why u do this to meh
         const insert_product = req.body
         productModel.addNew(insert_product)
             .then((data) => {
