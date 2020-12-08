@@ -29,19 +29,5 @@ module.exports = {
       .catch((err) => {
         form.error(res, err)
       })
-  },
-  deleteProduct: (req, res) => {
-    const { id } = req.query
-    getModel.deleteProduct(id)
-      .then((data) => {
-        const output = {
-          deletedId: id,
-          msg: data
-        }
-        res.json(output)
-      })
-      .catch((err) => {
-        res.json(err);
-      })
-  },
+  }
 }

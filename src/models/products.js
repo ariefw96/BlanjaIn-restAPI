@@ -20,7 +20,7 @@ module.exports = {
             JOIN color pc ON m.color_id = pc.id 
             JOIN size ps ON m.size_id = ps.id 
             JOIN conditions pco ON m.condition_id = pco.id 
-            GROUP BY m.product_id`
+            `
             queryString += param
             db.query(queryString, (err, data) => {
               if (!err) {
@@ -32,17 +32,5 @@ module.exports = {
               }
             })
           })
-    },
-    deleteProduct: (id) => {
-        return new Promise((resolve, reject) => {
-            const qs = "DELETE FROM master WHERE id = ?";
-            db.query(qs, id, (err, data) => {
-              if (!err) {
-                resolve(`Data berhasil dihapus pada id = ${id}`);
-              } else {
-                reject(err);
-              }
-            });
-          });
     }
 }

@@ -1,10 +1,28 @@
-// const express = require("express")
+// app.post("/transaction/add", (req, res) => {
+//     let obj
+//     const trxFile = req.body
+//     const addTrx = new Promise ((resolve, reject) => {
+//         const queryStr = "INSERT INTO history SET ?"
+//         db.query(queryStr, trxFile, (err, data) => {
+//             if(!err){
+//                 resolve(
+//                     obj = {
+//                         msg : `Transaksi berhasil dilakukan`,
+//                         ...trxFile
+//                     }
+//                 )
+//             }else{
+//                 reject(err)
+//             }
+//         })
+//     }).then((result) => {
+//         res.json(result)
+//     }).catch((error) => {
+//         res.json(error)
+//     })
+// })
 
-// const historyRouter = express.Router();
-
-// const db = require("../config/mySQL")
-
-// historyRouter.post("/transaction/history", (req, res) => {
+// app.get("/transaction/history", (req, res) => {
 //     const TransHistory = new Promise ((resolve, reject) => {
 //         const queryStr = 
 //         `SELECT th.id AS 'Transaksi ID', u.fullname AS 'User', p.product_name  AS 'Nama Produk', c.category_name as 'Kategori' , pc.color_name as 'Warna', ps.size_name AS 'Ukuran', pco.condition_name AS 'Kondisi', th.product_qty AS 'Jumlah pembelian', p.product_price AS 'Satuan', (th.product_qty * p.product_price) AS 'Total Harga', th.created_at AS 'Waktu Transaksi'        
@@ -30,6 +48,3 @@
 //         res.json(`gagal`)
 //     })
 // })
-
-
-// module.exports = historyRouter
