@@ -2,11 +2,11 @@ const express = require('express');
 const mainRouter = express.Router()
 
 const welcomeRouter = require('./welcome')
-const productsRouter = require('./products')
-const productRouter = require('./product')
-const searchRouter = require('./search')
-const authRouter = require('./auth')
-const trxRouter = require('./trx')
+const productsRouter = require('./r_products')
+const productRouter = require('./r_product')
+const searchRouter = require('./r_search')
+const authRouter = require('./r_auth')
+const trxRouter = require('./r_trx')
 
 const checkToken = require('./../helpers/checkToken')
 

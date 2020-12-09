@@ -1,13 +1,13 @@
 const express = require('express')
 const productRouter = express.Router()
-const productController = require('../controllers/product')
+const productController = require('../controllers/c_product')
 
 const multiUpload = require ('../helpers/uploadImg')
 
 //get by id
 productRouter.get('/:id', productController.getById )
 
-const checkToken = require('./../helpers/checkToken')
+const checkToken = require('../helpers/checkToken')
 //add New Product
 productRouter.post("/add-product",checkToken.isSeller, multiUpload, productController.addNew)
 //add from Existing Product

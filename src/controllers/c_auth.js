@@ -1,5 +1,5 @@
-const authModel = require('./../models/auth')
-const form = require('./../helpers/form')
+const authModel = require('../models/m_auth')
+const form = require('../helpers/form')
 
 module.exports = {
     signup: (req, res) => {

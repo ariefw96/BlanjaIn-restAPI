@@ -2,7 +2,7 @@ const express = require('express')
 
 const searchRouter = express.Router()
 
-const searchController = require('../controllers/search')
+const searchController = require('../controllers/c_search')
 
 searchRouter.get('/', searchController.searchBy)
 

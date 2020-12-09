@@ -2,7 +2,7 @@ const express = require('express')
 
 const productsRouter = express.Router()
 
-const productsController = require('../controllers/products')
+const productsController = require('../controllers/c_products')
 
 // SORT
 productsRouter.get("/", productsController.sortProduct)

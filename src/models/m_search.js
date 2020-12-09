@@ -13,6 +13,7 @@ module.exports = {
                 if (!err) {
                     if(Object.keys(data).length == 0){
                         reject({
+                            status: 404,
                             msg : `Data tidak ditemukan`
                         })
                     }else{

@@ -1,4 +1,4 @@
-const productModel = require('../models/product')
+const productModel = require('../models/m_product')
 const form = require('../helpers/form')
 
 module.exports = {

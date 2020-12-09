@@ -1,4 +1,4 @@
-const searchModel = require('../models/search')
+const searchModel = require('../models/m_search')
 const form = require('../helpers/form')
 module.exports = {
     searchBy: (req,res) => {
@@ -6,7 +6,7 @@ module.exports = {
       let addQuery = ``
       let query_length = Object.keys(req.query).length - 1
       let initial = 0
-      if(req.query != null){
+      if(Object.keys(req.query).length){
         addQuery += `WHERE `
         if(name != null ){
           addQuery += `product_name like '%${name}%' `

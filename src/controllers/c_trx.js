@@ -1,4 +1,4 @@
-const trxModel = require('../models/trx')
+const trxModel = require('../models/m_trx')
 const form = require ('../helpers/form')
 
 module.exports = {
