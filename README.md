@@ -8,25 +8,11 @@ this project is a simple implementation of RESTful API using *framework* Express
 - npm [Node.js](https://nodejs.org/en/download/)
   
 
-- ExpressJS
+- ExpressJS,  MySQL, Morgan
   
 
 ```
-npm install express
-```
-
-- mySQL
-  
-
-```
-npm install mysql
-```
-
-- morgan
-  
-
-```
-npm install morgan
+npm install express mysql morgan
 ```
 
 ## Getting started
@@ -59,15 +45,15 @@ npm install morgan
   
   ```
   const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'DBname'
+    host: process.env.HOST,
+    user: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
   });
   ```
   
 
-### Endpoint scheme
+### Endpoint scheme <STILL UPDATED>
 
 - get all product
 
@@ -103,3 +89,5 @@ PATCH
 DELETE
 /api/products/delete:id
 ```
+
+POSTMAN DOCUMENTATION [here]  (https://documenter.getpostman.com/view/13530339/TVmS9G4V)
