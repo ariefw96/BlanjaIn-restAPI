@@ -73,21 +73,22 @@ GET
 
 ```js
 POST
-/api/product
+/api/product/add-product
+/api/product/add-stock
 ```
 
 - edit product
 
 ```js
 PATCH
-/api/product/update
+/api/product/update/:id
 ```
 
 - delete product
 
 ```js
 DELETE
-/api/products/delete:id
+/api/product/delete:id
 ```
 
 POSTMAN DOCUMENTATION 
