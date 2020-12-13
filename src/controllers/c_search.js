@@ -11,15 +11,22 @@ module.exports = {
     const { name, color, size, category } = req.query;
     let addQuery = ``
     let urlQuery = ``
-    let query_length = Object.keys(req.query).length - 1
+    let query_length = Object.keys(req.query).length
     if (query.page) {
       query_length -= 1
     }
     if (query.limit) {
       query_length -= 1
     }
-    let initial = 0
-    if (Object.keys(req.query).length) {
+    if(query.sortBy){
+      query_length -=1
+    }
+    if(query.orderBy){
+      query_length -=1
+    }
+    let initial = 1
+    console.log(query_length != 0)
+    if (query_length != 0) {
       addQuery += `WHERE `
       if (name != null) {
         addQuery += `product_name like '%${name}%' `
@@ -61,7 +68,22 @@ module.exports = {
       }
     }
 
-    console.log(urlQuery)
+    //SORT
+    const { sortBy, orderBy } = req.query
+    if (sortBy != null) {
+      if (orderBy == `desc`) {
+        addQuery += `ORDER BY  ${sortBy} DESC `
+        urlQuery += `sortBy=${sortBy}&orderBy=desc&`
+      }else{
+        addQuery += `ORDER BY ${sortBy} ASC `
+        urlQuery += `sortBy=${sortBy}&orderBy=asc&`
+      }
+    }else{
+      addQuery+= `ORDER BY created_at DESC `
+      urlQuery +=`sortBy=${created_at}&orderBy=desc&`
+    }
+
+    console.log(addQuery, urlQuery)
     searchModel.countResult(addQuery)
       .then((result) => {
         searchModel.searchBy(addQuery, urlQuery,result[0].total_result, page, offset, limit)

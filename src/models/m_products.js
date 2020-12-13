@@ -36,7 +36,7 @@ module.exports = {
                           ? null
                           : `/products?${urlQuery}page=${page + 1}&limit=${limit}`
                     }
-                    
+      
                   }
                   resolve(newData)
                 }else{
@@ -45,7 +45,6 @@ module.exports = {
                     msg: `Not Found`
                   })
                 }
-
               } else {
                 reject({
                   msg : `ERROR on SQL Query`

@@ -22,7 +22,7 @@ module.exports = {
                                 currentPage: page || 1,
                                 previousPage:
                                     page === 1 ? null : `/search?${urlQuery}page=${page - 1}&limit=${limit}`,
-                                nextpage: offset+limit <= total_result //dia sudah pada result2 terakhir
+                                nextpage: offset+limit >= total_result //dia sudah pada result2 terakhir
                                     ? null
                                     : `/search?${urlQuery}page=${page + 1}&limit=${limit}`
                             }
