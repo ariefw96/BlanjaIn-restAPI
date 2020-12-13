@@ -16,7 +16,7 @@ const multerStorage = multer.diskStorage({
 
 const upload = multer({
     storage: multerStorage,
-    limits: {fileSize: 2 * 1024 * 1024} // 2 MB
+    limits: { fileSize: 2 * 1024 * 1024 } // 2 MB
 });
 
 const multiUpload = (req, res, next) => {
@@ -28,7 +28,7 @@ const multiUpload = (req, res, next) => {
                 err,
             });
         } else {
-            let filePath = req.files.map((val) => "/images/"+val.filename)
+            let filePath = req.files.map((val) => "/images/" + val.filename)
 
             req.filePath = filePath.join(',')
             next();

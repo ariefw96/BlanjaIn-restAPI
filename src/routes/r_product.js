@@ -12,6 +12,8 @@ const checkToken = require('../helpers/checkToken')
 productRouter.post("/add-product",checkToken.isSeller, multiUpload, productController.addNew)
 //add from Existing Product
 productRouter.post("/add-stock",checkToken.isSeller, productController.addExisting) 
+//updateProd
+productRouter.patch("/updateProd/:id",checkToken.isSeller,multiUpload, productController.updateProd)
 //update pivot
 productRouter.patch("/update/:id",checkToken.isSeller, productController.updateProduct)
 //delete

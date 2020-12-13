@@ -32,7 +32,7 @@ module.exports = {
                       currentPage: page || 1,
                       previousPage:
                         page === 1 ? null : `/products?${urlQuery}page=${page - 1}&limit=${limit}`,
-                      nextpage: (offset+data.length) <= (offset+limit) //dia sudah pada result2 terakhir
+                      nextpage: data.length < limit //dia sudah pada result2 terakhir
                           ? null
                           : `/products?${urlQuery}page=${page + 1}&limit=${limit}`
                     }

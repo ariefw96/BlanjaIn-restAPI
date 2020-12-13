@@ -27,7 +27,13 @@ module.exports = {
             WHERE trx.user_id = ?`
             db.query(queryStr, user_id, (err, data) => {
                 if (!err) {
-                    resolve(data)
+                    if(data.length){
+                        resolve(data)
+                    }else{
+                        resolve({
+                            msg: `belum ada transaksi dilakukan`
+                        })
+                    }
                 } else {
                     reject(err)
                 }

@@ -13,17 +13,20 @@ module.exports = {
             })
     },
     addNew: (req, res) => {
+        let Product_inserted;
         let insert_product = req.body
-        insert_product = {
-            ...insert_product,
-            product_img: req.filePath
+        if (req.filePath != '') {
+            insert_product = {
+                ...insert_product,
+                product_img: req.filePath
+            }
+            const res_img = req.filePath.split(",")
+            Product_inserted = {
+                ...insert_product,
+                product_img: res_img
+            }
         }
-
-        const res_img = req.filePath.split(",")
-        const Product_inserted = {
-            ...insert_product,
-            product_img:res_img
-        }
+        Product_inserted = insert_product
         productModel.addNew(insert_product)
             .then((data) => {
                 form.success(res, {
@@ -42,6 +45,22 @@ module.exports = {
             }).catch((err) => {
                 form.error(res, err)
             })
+    },
+    updateProd: (req, res) => {
+        const { id } = req.params
+        let { body } = req
+        if(req.filePath != ''){
+            body = {
+                ...body,
+                product_img: req.filePath
+            }
+        }
+        productModel.updateProd(body, id)
+        .then((result) => {
+            res.status(200).json(result)
+        }).catch((error) => {
+            res.status(500).json(error)
+        })
     },
     updateProduct: (req, res) => {
         const { id } = req.params //update ID at req.params
@@ -62,18 +81,18 @@ module.exports = {
             })
     },
     deleteProduct: (req, res) => {
-      const { id } = req.params
-      productModel.deleteProduct(id)
-        .then((data) => {
-          const output = {
-            deletedId: id,
-            msg: data
-          }
-          form.success(res, output)
-        })
-        .catch((err) => {
-          form.error(res, err)
-        })
+        const { id } = req.params
+        productModel.deleteProduct(id)
+            .then((data) => {
+                const output = {
+                    deletedId: id,
+                    msg: data
+                }
+                form.success(res, output)
+            })
+            .catch((err) => {
+                form.error(res, err)
+            })
     },
     getSize: (req, res) => {
         const { id } = req.params
