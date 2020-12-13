@@ -4,8 +4,8 @@ const productsRouter = express.Router()
 
 const productsController = require('../controllers/c_products')
 
-// SORT
-productsRouter.get("/", productsController.sortProduct)
+//sort search
+productsRouter.get('/', productsController.SearchAndSort)
 
 //get Product(from product)
 productsRouter.get("/showAll", productsController.showAll)

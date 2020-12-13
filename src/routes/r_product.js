@@ -16,7 +16,9 @@ productRouter.post("/add-stock",checkToken.isSeller, productController.addExisti
 productRouter.patch("/updateProd/:id",checkToken.isSeller,multiUpload, productController.updateProd)
 //update pivot
 productRouter.patch("/update/:id",checkToken.isSeller, productController.updateProduct)
-//delete
+//deleteProd
+productRouter.delete("/deleteProd/:id", checkToken.isSeller, productController.deleteProd)
+//delete Pivot
 productRouter.delete("/delete/:id",checkToken.isSeller, productController.deleteProduct)
 
 

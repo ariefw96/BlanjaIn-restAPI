@@ -1,5 +1,6 @@
 const productModel = require('../models/m_product')
 const form = require('../helpers/form')
+const fs = require('fs')
 
 module.exports = {
     getById: (req, res) => {
@@ -41,7 +42,8 @@ module.exports = {
     },
     addExisting: (req, res) => {
         const { user_id } = req.decodedToken
-        add_stock = {...req.body,
+        add_stock = {
+            ...req.body,
             user_id
         }
 
@@ -55,18 +57,18 @@ module.exports = {
     updateProd: (req, res) => {
         const { id } = req.params
         let { body } = req
-        if(req.filePath != ''){
+        if (req.filePath != '') {
             body = {
                 ...body,
                 product_img: req.filePath
             }
         }
         productModel.updateProd(body, id)
-        .then((result) => {
-            res.status(200).json(result)
-        }).catch((error) => {
-            res.status(500).json(error)
-        })
+            .then((result) => {
+                res.status(200).json(result)
+            }).catch((error) => {
+                res.status(500).json(error)
+            })
     },
     updateProduct: (req, res) => {
         const { id } = req.params //update ID at req.params
@@ -85,6 +87,46 @@ module.exports = {
             }).catch((err) => {
                 res.json(err)
             })
+    },
+    deleteProd: (req, res) => {
+        const { id } = req.params
+        productModel.deleteFile(id)
+            .then((result) => {
+                try {
+                    if (result[0]) {
+                        result[0].product_img.split(",").map((image) =>
+                            fs.unlink(`public${image}`, (err) => {
+                                if (err) {
+                                    console.log(err)
+                                    return
+                                } else {
+                                    console.log(`public${image} deleted`)
+                                }
+                            })
+                        )
+                    } else {
+                        console.log(`Nothing to delete`)
+                    }
+                    productModel.deleteProd(id)
+                        .then((data) => {
+                            res.status(200).json(data)
+                        }).catch((error) => {
+                            res.status(500).json(error)
+                        })
+                } catch{
+                    console.log(`Bingung???`)
+                }
+            }).catch((error) => {
+                res.status(500).json(error)
+            })
+
+
+        // productModel.deleteProd(id)
+        // .then((result) => {
+        //     res.status(200).json(result)
+        // }).catch((error) => {
+        //     res.status(500).json(error)
+        // })
     },
     deleteProduct: (req, res) => {
         const { id } = req.params

@@ -77,6 +77,34 @@ module.exports = {
             })
         })
     },
+    deleteFile: (id) => {
+        return new Promise ((resolve, reject ) => {
+            const queryStr = "SELECT product_img FROM products WHERE id = ?"
+            db.query(queryStr, id, (err, data) => {
+                if(!err) {
+                    resolve(data)
+                }else{
+                    reject({
+                        msg: `Gagal`
+                    })
+                }
+            })
+        })
+    },
+    deleteProd: (id) => {
+        return new Promise (( resolve, reject) => {
+            const queryStr = `DELETE FROM products WHERE id = ?`
+            db.query(queryStr, id, (err, data) => {
+                if(!err){
+                    resolve({
+                        msg: `Data berhasil dihapus pada id ${id}`
+                    })
+                }else{
+                    reject({msg: `Gagal`})
+                }
+            })
+        })
+    },
     deleteProduct: (id) => {
         return new Promise((resolve, reject) => {
             const qs = "DELETE FROM master WHERE id = ?";

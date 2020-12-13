@@ -4,7 +4,6 @@ const mainRouter = express.Router()
 const welcomeRouter = require('./welcome')
 const productsRouter = require('./r_products')
 const productRouter = require('./r_product')
-const searchRouter = require('./r_search')
 const authRouter = require('./r_auth')
 const trxRouter = require('./r_trx')
 
@@ -19,7 +18,8 @@ mainRouter.use("/products", productsRouter) // endpoint sort
 mainRouter.use("/product",checkToken.isLogin, productRouter) // endpoint insert, update
 
 
-mainRouter.use("/search", searchRouter) // endpoint filter
+mainRouter.use("/products", productsRouter) // endpoint search and sort
+
 mainRouter.use("/auth", authRouter) //endpoint auth
 mainRouter.use("/transaction",checkToken.isLogin, trxRouter) //Trx
 
