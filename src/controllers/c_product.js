@@ -15,9 +15,11 @@ module.exports = {
     addNew: (req, res) => {
         let Product_inserted;
         let insert_product = req.body
+        const { user_id } = req.decodedToken
         if (req.filePath != '') {
             insert_product = {
                 ...insert_product,
+                user_id,
                 product_img: req.filePath
             }
             const res_img = req.filePath.split(",")
@@ -38,7 +40,11 @@ module.exports = {
             })
     },
     addExisting: (req, res) => {
-        const add_stock = req.body
+        const { user_id } = req.decodedToken
+        add_stock = {...req.body,
+            user_id
+        }
+
         productModel.addExisting(add_stock)
             .then((data) => {
                 form.success(res, data)
