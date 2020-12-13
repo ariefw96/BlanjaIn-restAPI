@@ -4,22 +4,22 @@ const form = require('./form')
 
 
 module.exports = {
-    isRegistered:(req, res, next) => {
+    isRegistered: (req, res, next) => {
         const { username } = req.body
-        const checkAvailable = new Promise ((resolve, reject) => {
+        const checkAvailable = new Promise((resolve, reject) => {
             const queryStr = `SELECT username FROM tb_user WHERE username = ?`
             db.query(queryStr, username, (err, data) => {
-                if(!err){
-                    if(!data[0]){
+                if (!err) {
+                    if (!data[0]) {
                         resolve({
                             msg: `success`
                         })
-                    }else{
+                    } else {
                         reject({
                             msg: `username telah digunakan!`
                         })
                     }
-                }else{
+                } else {
                     reject({
                         msg: `SQLquery ERROR!`
                     })
@@ -79,13 +79,10 @@ module.exports = {
     isSeller: (req, res, next) => {
         const { level } = req.decodedToken
         if (level != 2) {
-            form.error(res,
-                {
-                    status: 401,
-                    msg: `Unauthorized Access`,
-                    details: `Yout dont have permission to access this page.`
-                }
-            )
+            res.status(401).jason({
+                msg: `Unauthorized Access`,
+                details: `Yout dont have permission to access this page.`
+            })
         } else {
             next()
         }
