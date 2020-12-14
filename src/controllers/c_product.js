@@ -28,8 +28,9 @@ module.exports = {
                 ...insert_product,
                 product_img: res_img
             }
+        } else {
+            Product_inserted = insert_product
         }
-        Product_inserted = insert_product
         productModel.addNew(insert_product)
             .then((data) => {
                 form.success(res, {
@@ -62,11 +63,35 @@ module.exports = {
                 ...body,
                 product_img: req.filePath
             }
+            productModel.deleteFile(id)
+                .then((result) => {
+                    if (result[0]) {
+                        console.log(`delete ?`)
+                        result[0].product_img.split(",").map((image) =>
+                            fs.unlink(`public${image}`, (err) => {
+                                if (err) {
+                                    console.log(err)
+                                    return
+                                } else {
+                                    console.log(`public${image} deleted`)
+                                }
+                            })
+                        )
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                })
         }
         productModel.updateProd(body, id)
-            .then((result) => {
-                res.status(200).json(result)
+            .then((pesan) => {
+                const updated = {
+                    ...body,
+                    product_img: req.filePath.split(",")
+
+                }
+                res.status(200).json({pesan,updated})
             }).catch((error) => {
+                console.log(`error`)
                 res.status(500).json(error)
             })
     },
@@ -92,41 +117,27 @@ module.exports = {
         const { id } = req.params
         productModel.deleteFile(id)
             .then((result) => {
-                try {
-                    if (result[0]) {
-                        result[0].product_img.split(",").map((image) =>
-                            fs.unlink(`public${image}`, (err) => {
-                                if (err) {
-                                    console.log(err)
-                                    return
-                                } else {
-                                    console.log(`public${image} deleted`)
-                                }
-                            })
-                        )
-                    } else {
-                        console.log(`Nothing to delete`)
-                    }
-                    productModel.deleteProd(id)
-                        .then((data) => {
-                            res.status(200).json(data)
-                        }).catch((error) => {
-                            res.status(500).json(error)
-                        })
-                } catch{
-                    console.log(`Bingung???`)
-                }
+                productModel.deleteProd(id)
+                    .then((data) => {
+                        if (result[0]) {
+                            result[0].product_img.split(",").map((image) =>
+                                fs.unlink(`public${image}`, (err) => {
+                                    if (err) {
+                                        console.log(err)
+                                        return
+                                    } else {
+                                        console.log(`public${image} deleted`)
+                                    }
+                                })
+                            )
+                        }
+                        res.status(200).json(data)
+                    }).catch((error) => {
+                        res.status(500).json(error)
+                    })
             }).catch((error) => {
                 res.status(500).json(error)
             })
-
-
-        // productModel.deleteProd(id)
-        // .then((result) => {
-        //     res.status(200).json(result)
-        // }).catch((error) => {
-        //     res.status(500).json(error)
-        // })
     },
     deleteProduct: (req, res) => {
         const { id } = req.params
