@@ -66,7 +66,6 @@ module.exports = {
             productModel.deleteFile(id)
                 .then((result) => {
                     if (result[0]) {
-                        console.log(`delete ?`)
                         result[0].product_img.split(",").map((image) =>
                             fs.unlink(`public${image}`, (err) => {
                                 if (err) {
@@ -91,7 +90,6 @@ module.exports = {
                 }
                 res.status(200).json({pesan,updated})
             }).catch((error) => {
-                console.log(`error`)
                 res.status(500).json(error)
             })
     },
