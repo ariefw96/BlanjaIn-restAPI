@@ -19,6 +19,30 @@ module.exports = {
             })
         })
     },
+    getId: (id) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT * FROM products WHERE id= ?`
+            db.query(queryStr, id, (err, data) => {
+                if (!err) {
+                    resolve(data)
+                } else {
+                    reject(err)
+                }
+            })
+        })
+    },
+    getPivotId: (id) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT * FROM master WHERE id = ?`
+            db.query(queryStr, id, (err, data) => {
+                if (!err) {
+                    resolve(data)
+                }else{
+                    reject(err)
+                }
+            })
+        })
+    },
     addNew: (insert_product) => {
         return new Promise((resolve, reject) => {
             const queryStr = "INSERT INTO products SET ?"
@@ -52,14 +76,14 @@ module.exports = {
     },
     updateProd: (body, id) => {
         console.log(body, id)
-        return new Promise ((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const queryStr = 'UPDATE products SET ? WHERE id = ? '
-            db.query(queryStr, [body, id], (err, data ) => {
-                if(!err){
+            db.query(queryStr, [body, id], (err, data) => {
+                if (!err) {
                     resolve({
-                        msg : `berhasil pada id ${id}`
+                        msg: `berhasil pada id ${id}`
                     })
-                }else{
+                } else {
                     reject(err)
                 }
             })
@@ -78,12 +102,12 @@ module.exports = {
         })
     },
     deleteFile: (id) => {
-        return new Promise ((resolve, reject ) => {
+        return new Promise((resolve, reject) => {
             const queryStr = "SELECT product_img FROM products WHERE id = ?"
             db.query(queryStr, id, (err, data) => {
-                if(!err) {
+                if (!err) {
                     resolve(data)
-                }else{
+                } else {
                     reject({
                         msg: `Gagal`
                     })
@@ -92,15 +116,15 @@ module.exports = {
         })
     },
     deleteProd: (id) => {
-        return new Promise (( resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const queryStr = `DELETE FROM products WHERE id = ?`
             db.query(queryStr, id, (err, data) => {
-                if(!err){
+                if (!err) {
                     resolve({
                         msg: `Data berhasil dihapus pada id ${id}`
                     })
-                }else{
-                    reject({msg: `Gagal`})
+                } else {
+                    reject({ msg: `Gagal` })
                 }
             })
         })
@@ -109,13 +133,13 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const qs = "DELETE FROM master WHERE id = ?";
             db.query(qs, id, (err, data) => {
-              if (!err) {
-                resolve(`Data berhasil dihapus pada id = ${id}`);
-              } else {
-                reject(err);
-              }
+                if (!err) {
+                    resolve(`Data berhasil dihapus pada id = ${id}`);
+                } else {
+                    reject(err);
+                }
             });
-          });
+        });
     },
     getSize: (id) => {
         return new Promise((resolve, reject) => {

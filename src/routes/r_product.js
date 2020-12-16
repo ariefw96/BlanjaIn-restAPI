@@ -21,7 +21,9 @@ productRouter.delete("/deleteProd/:id", checkToken.isSeller, productController.d
 //delete Pivot
 productRouter.delete("/delete/:id",checkToken.isSeller, productController.deleteProduct)
 
+productRouter.get("/getId/:id",checkToken.isSeller, productController.getId)
 
+productRouter.get("/getPivotId/:id",checkToken.isSeller,productController.getPivotId)
 
 //getColor&Size in detailProduct
 productRouter.get("/get_size/:id", productController.getSize)

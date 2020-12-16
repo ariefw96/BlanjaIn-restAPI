@@ -33,6 +33,7 @@ module.exports = {
     },
     isLogin: (req, res, next) => {
         const bearerToken = req.header("x-access-token");
+        console.log(bearerToken)
         //jika tidak ada header x-access-token
         if (!bearerToken) {
             res.json({
@@ -79,7 +80,7 @@ module.exports = {
     isSeller: (req, res, next) => {
         const { level } = req.decodedToken
         if (level != 2) {
-            res.status(401).jason({
+            res.status(401).json({
                 msg: `Unauthorized Access`,
                 details: `Yout dont have permission to access this page.`
             })

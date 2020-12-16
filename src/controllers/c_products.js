@@ -2,7 +2,7 @@ const productsModel = require('../models/m_products')
 const form = require('../helpers/form')
 module.exports = {
   showAll:(req,res) => {
-    getModel.allProduct()
+    productsModel.allProduct()
     .then((data) => {
       form.success(res, data)
     }).catch((err) => {
@@ -87,7 +87,7 @@ module.exports = {
       }
     }else{
       addQuery+= `ORDER BY created_at DESC `
-      urlQuery +=`sortBy=${created_at}&orderBy=desc&`
+      urlQuery +=`sortBy=created_at&orderBy=desc&`
     }
 
     console.log(urlQuery)
@@ -103,6 +103,13 @@ module.exports = {
       }).catch((error) => {
         res.status(500).json(error)
       })
-
+  },
+  getAllsize: (req, res) => {
+    productsModel.getAllsize()
+    .then((data) => {
+      res.json(data)
+    }).catch((error) => {
+      console.log(error)
+    })
   }
 }

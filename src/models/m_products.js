@@ -2,7 +2,7 @@ const db = require('../config/mySQL')
 module.exports = {
     allProduct: () => {
         return new Promise((resolve, reject) => {
-            const queryString = `SELECT id, product_name FROM products`
+            const queryString = `SELECT p.id, p.product_name, p.product_price, c.category_name, p.product_desc FROM products p JOIN category c ON p.category_id = c.id`
             db.query(queryString, (err, data) => {
                 if (!err) {
                     resolve(data)
@@ -33,10 +33,10 @@ module.exports = {
                                 totalPage: total_result % limit === 0 ? total_result / limit : Math.floor(total_result / limit) + 1,
                                 currentPage: page || 1,
                                 previousPage:
-                                    page === 1 ? null : `/products?${urlQuery}page=${page - 1}&limit=${limit}`,
+                                    page === 1 ? null : `products?${urlQuery}page=${page - 1}&limit=${limit}`,
                                 nextpage: offset + limit >= total_result //dia sudah pada result2 terakhir
                                     ? null
-                                    : `/products?${urlQuery}page=${page + 1}&limit=${limit}`
+                                    : `products?${urlQuery}page=${page + 1}&limit=${limit}`
                             }
                         }
                         resolve(newData)
@@ -69,6 +69,18 @@ module.exports = {
                 }
             })
 
+        })
+    },
+    getAllsize: () => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT * FROM size`
+            db.query(queryStr, (err, data) => {
+                if (!err) {
+                    resolve(data)
+                } else {
+                    reject(error)
+                }
+            })
         })
     }
 }

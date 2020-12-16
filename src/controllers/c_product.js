@@ -3,6 +3,15 @@ const form = require('../helpers/form')
 const fs = require('fs')
 
 module.exports = {
+    getId: (req, res) => {
+        const {id} = req.params
+        productModel.getId(id)
+        .then((data) => {
+            res.status(200).json(data)
+        }).catch((error) => {
+            res.status(500).json(error)
+        })
+    },
     getById: (req, res) => {
         const { id } = req.params
         productModel.getById(id)
@@ -12,6 +21,15 @@ module.exports = {
             .catch((err) => {
                 form.error(res, err)
             })
+    },
+    getPivotId: ( req, res) => {
+        const { id } = req.params
+        productModel.getPivotId(id)
+        .then((result) => {
+            res.status(200).json(result)
+        }).catch((err) => {
+            res.json(err)
+        })
     },
     addNew: (req, res) => {
         let Product_inserted;
@@ -38,7 +56,7 @@ module.exports = {
                     Product_inserted
                 })
             }).catch((err) => {
-                form.error(res, err)
+                res.json(err)
             })
     },
     addExisting: (req, res) => {
@@ -52,7 +70,7 @@ module.exports = {
             .then((data) => {
                 form.success(res, data)
             }).catch((err) => {
-                form.error(res, err)
+                res.json(err)
             })
     },
     updateProd: (req, res) => {
