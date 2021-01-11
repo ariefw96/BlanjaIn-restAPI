@@ -8,9 +8,9 @@ module.exports = {
             JOIN color pc ON m.color_id = pc.id 
             JOIN size ps ON m.size_id = ps.id 
             JOIN conditions pco ON m.condition_id = pco.id 
-            WHERE m.product_id = ? 
+            WHERE m.product_id = ${id}
             GROUP BY m.product_id`
-            db.query(queryStr, id, (err, data) => {
+            db.query(queryStr, (err, data) => {
                 if (!err) {
                     resolve(data)
                 } else {

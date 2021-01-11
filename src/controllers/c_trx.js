@@ -11,7 +11,7 @@ module.exports = {
         }
         trxModel.addTrx(body)
         .then((result) => {
-            form.success(res,result)
+            res.json(result)
         }).catch((error) => {
             form.error(res, error)
         })

@@ -15,7 +15,7 @@ mainRouter.use("/products", productsRouter) // endpoint sort
 
 
 //mau nyoba blocking akses CRUD product kalo bukan level seller
-mainRouter.use("/product",checkToken.isLogin, productRouter) // endpoint insert, update
+mainRouter.use("/product",productRouter) // endpoint insert, update
 
 
 mainRouter.use("/products", productsRouter) // endpoint search and sort

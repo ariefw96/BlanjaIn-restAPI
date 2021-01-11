@@ -2,7 +2,8 @@ const productsModel = require('../models/m_products')
 const form = require('../helpers/form')
 module.exports = {
   showAll:(req,res) => {
-    productsModel.allProduct()
+    const { id } = req.params
+    productsModel.allProduct(id)
     .then((data) => {
       form.success(res, data)
     }).catch((err) => {
@@ -103,6 +104,16 @@ module.exports = {
       }).catch((error) => {
         res.status(500).json(error)
       })
+  },
+  getAllData: (req, res) => {
+    const { id } = req.params
+    productsModel.allData(id)
+    .then((data) => {
+      res.json(data)
+    }).catch((error) => {
+      console.log('error ?')
+      console.log(error)
+    })
   },
   getAllsize: (req, res) => {
     productsModel.getAllsize()

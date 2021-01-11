@@ -5,30 +5,31 @@ const form = require('./form')
 
 module.exports = {
     isRegistered: (req, res, next) => {
-        const { username } = req.body
+        const { email } = req.body
         const checkAvailable = new Promise((resolve, reject) => {
-            const queryStr = `SELECT username FROM tb_user WHERE username = ?`
-            db.query(queryStr, username, (err, data) => {
+            const queryStr = `SELECT email FROM tb_user WHERE email = ?`
+            db.query(queryStr, email, (err, data) => {
                 if (!err) {
                     if (!data[0]) {
-                        resolve({
+                        resolve({                      
                             msg: `success`
                         })
                     } else {
                         reject({
-                            msg: `username telah digunakan!`
+                            msg: `Email telah digunakan!`
                         })
                     }
                 } else {
                     reject({
-                        msg: `SQLquery ERROR!`
+                        msg: `SQLquery ERROR!`,
+                        details:err
                     })
                 }
             })
         }).then((result) => {
             next()
         }).catch((error) => {
-            form.error(res, error)
+            res.status(500).json(error)
         })
     },
     isLogin: (req, res, next) => {
