@@ -6,6 +6,7 @@ const productsRouter = require('./r_products')
 const productRouter = require('./r_product')
 const authRouter = require('./r_auth')
 const trxRouter = require('./r_trx')
+const addressRouter = require ('./r_address')
 
 const checkToken = require('./../helpers/checkToken')
 
@@ -19,7 +20,7 @@ mainRouter.use("/product",productRouter) // endpoint insert, update
 
 
 mainRouter.use("/products", productsRouter) // endpoint search and sort
-
+mainRouter.use("/address", addressRouter)
 mainRouter.use("/auth", authRouter) //endpoint auth
 mainRouter.use("/transaction",checkToken.isLogin, trxRouter) //Trx
 

@@ -219,12 +219,9 @@ module.exports = {
     },
     postLogin: (body) => {
         return new Promise((resolve, reject) => {
-            const { email, password } = body
-            
+            const { email, password } = body           
             const queryStr = `SELECT id, email, password, level_id, fullname, isActive FROM tb_user WHERE email = ?`
-            console.log(queryStr)
             db.query(queryStr,email, (err, data) => {
-                console.log(err, data)
                 if (err) {
                     reject({
                         status:500,
