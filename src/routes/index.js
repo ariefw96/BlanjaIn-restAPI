@@ -7,6 +7,7 @@ const productRouter = require('./r_product')
 const authRouter = require('./r_auth')
 const trxRouter = require('./r_trx')
 const addressRouter = require ('./r_address')
+const bagRouter = require ('./r_bag')
 
 const checkToken = require('./../helpers/checkToken')
 
@@ -23,6 +24,7 @@ mainRouter.use("/products", productsRouter) // endpoint search and sort
 mainRouter.use("/address", addressRouter)
 mainRouter.use("/auth", authRouter) //endpoint auth
 mainRouter.use("/transaction",checkToken.isLogin, trxRouter) //Trx
+mainRouter.use("/bag", bagRouter)
 
 
 module.exports = mainRouter
