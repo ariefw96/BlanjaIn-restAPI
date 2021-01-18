@@ -3,6 +3,9 @@ const transactionController = require ('../controllers/c_trx')
 const transactionRouter = express.Router()
 
 transactionRouter.post("/", transactionController.addTrx)
-transactionRouter.get("/", transactionController.getTrx)
+transactionRouter.post("/itemOrder", transactionController.addMultiple)
+// transactionRouter.get("/:userId", transactionController.getTrx)
+transactionRouter.get("/myTransaction/:userId", transactionController.getMyTrans)
+transactionRouter.get("/getOrderDetail/:trxId", transactionController.getOrderDetails)
 
 module.exports = transactionRouter

@@ -23,7 +23,7 @@ mainRouter.use("/product",productRouter) // endpoint insert, update
 mainRouter.use("/products", productsRouter) // endpoint search and sort
 mainRouter.use("/address", addressRouter)
 mainRouter.use("/auth", authRouter) //endpoint auth
-mainRouter.use("/transaction",checkToken.isLogin, trxRouter) //Trx
+mainRouter.use("/transaksi", trxRouter) //Trx
 mainRouter.use("/bag", bagRouter)
 
 

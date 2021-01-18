@@ -35,7 +35,7 @@ module.exports = {
         .then((result) =>{
             res.status(result.status).json(result)
         }).catch((error) =>{
-            res.status(error.status).json(err)
+            res.status(error.status).json(error)
         })
     }
 }

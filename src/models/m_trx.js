@@ -5,37 +5,130 @@ const jsonwebtoken = require('jsonwebtoken')
 module.exports = {
     addTrx: (body) => {
         return new Promise((resolve, reject) => {
-            const queryStr = `INSERT INTO history SET ?`
+            const queryStr = `INSERT INTO tb_transaksi SET ?`
             db.query(queryStr, body, (err, data) => {
                 if (!err) {
                     resolve({
-                        msg: `Transaksi berhasil dilakukan`
+                        status: 200,
+                        message: `Transaksi berhasil dilakukan`
                     })
                 } else {
-                    reject(err)
+                    reject({
+                        status: 500,
+                        message: er
+                    })
                 }
             })
         })
     },
-    getTrx: (user_id) => {
+
+    addOrder: (body) => {
         return new Promise((resolve, reject) => {
-            const queryStr = `SELECT trx.id as "trx_id", p.product_name, s.size_name, c.color_name, trx.product_qty, trx.created_at
-            FROM history trx
-            JOIN products p ON trx.product_name = p.id
-            JOIN size s ON trx.product_size = s.id
-            JOIN color c ON trx.product_color = c.id
-            WHERE trx.user_id = ?`
-            db.query(queryStr, user_id, (err, data) => {
+            let status = 200;
+            let errData = null
+            body.map((items) => {
+                console.log(items)
+                const queryStr = `INSERT INTO tb_item_order SET ?`
+                db.query(queryStr, items, (err, data) => {
+
+                    if (!err) {
+                        if (status != 500) {
+                            status = 200
+                            console.log('berhasil')
+                        }
+                    } else {
+                        status = 500
+                        errData = err
+                        console.log('gagal')
+                    }
+                })
+            })
+            if (status == 200) {
+                resolve({
+                    status: 200,
+                    message: `Berhasil insert data`
+                })
+            } else {
+                reject({
+                    status: 500,
+                    message: errData
+                })
+            }
+        })
+    },
+    getMyTrans: (userId) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT trxId, trackingNumber, qty,total, status, created_at FROM tb_transaksi WHERE user_id = ?`
+            db.query(queryStr, userId, (err, data) => {
                 if (!err) {
-                    if(data.length){
-                        resolve(data)
-                    }else{
+                    if (data.length > 0) {
                         resolve({
-                            msg: `belum ada transaksi dilakukan`
+                            status: 200,
+                            data: data
+                        })
+                    } else {
+                        resolve({
+                            status: 200,
+                            data: `Belum ada transaksi`
                         })
                     }
                 } else {
-                    reject(err)
+                    reject({
+                        status: 500,
+                        message: err
+                    })
+                }
+            })
+        })
+    },
+
+    getTransDetails: (trxId) => {
+        return new Promise ((resolve, reject) =>{
+            const queryStr = `SELECT * FROM tb_transaksi JOIN address ON tb_transaksi.address = address.id JOIN payment ON tb_transaksi.payment = payment.id WHERE trxId = ?`
+        db.query(queryStr, trxId, (err, data) => {
+            if (!err) {
+                if (data.length > 0) {
+                    resolve({
+                        status: 200,
+                        data: data[0]
+                    })
+                } else {
+                    resolve({
+                        status: 404,
+                        data: `NOT FOUND`
+                    })
+                }
+            } else {
+                reject({
+                    status: 500,
+                    message: err
+                })
+            }
+        })
+        })
+    },
+
+    getOrderDetails: (trxId) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT * FROM tb_item_order WHERE trxId = ?`
+            db.query(queryStr, trxId, (err, data) => {
+                if (!err) {
+                    if (data.length > 0) {
+                        resolve({
+                            status: 200,
+                            data: data
+                        })
+                    } else {
+                        resolve({
+                            status: 404,
+                            data: `NOT FOUND`
+                        })
+                    }
+                } else {
+                    reject({
+                        status: 500,
+                        message: err
+                    })
                 }
             })
         })

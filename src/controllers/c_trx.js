@@ -1,35 +1,56 @@
 const trxModel = require('../models/m_trx')
 const form = require ('../helpers/form')
+const { promises } = require('fs')
 
 module.exports = {
     addTrx: (req, res) => {
-        const user_id = req.decodedToken.user_id
-        let { body } = req
-        body = {
-            ...body,
-            user_id
-        }
+        const {body} = req
+        console.log(body)
         trxModel.addTrx(body)
-        .then((result) => {
-            res.json(result)
-        }).catch((error) => {
-            form.error(res, error)
+        .then((result) =>{
+            res.status(200).json(result)
+        }).catch((error) =>{
+            res.status(error.status).json(error)
         })
 
     },
-    getTrx: (req, res) => {
-        const user_id = req.decodedToken.user_id
-        trxModel.getTrx(user_id)
-        .then((result) => {
-            form.success(res,{
-                Title: `Daftar Transaksi`,
-                ...result,
-                
-                
-            })
-        }).catch((error) => {
-            form.error(res, error)
-        })
 
-    }
+    addMultiple: (req, res) =>{
+        const {body} = req
+        console.log(body)
+        trxModel.addOrder(body)
+        .then((result) =>{
+            res.status(200).json(result)
+        }).catch((error) =>{
+            res.status(error.status).json(error)
+        })
+    },
+    getMyTrans: (req, res) =>{
+        const {userId} = req.params
+        trxModel.getMyTrans(userId)
+        .then((result) =>{
+            res.status(200).json(result)
+        }).catch((error) =>{
+            res.status(error.status).json(error)
+        })
+    },
+
+    getOrderDetails: (req, res) =>{
+        const {trxId} = req.params
+        Promise.all([
+            trxModel.getTransDetails(trxId),
+            trxModel.getOrderDetails(trxId)
+        ])
+        .then((result) =>{
+            let finalResult = result[0].data
+            finalResult.cardOrder = result[1].data
+            res.status(200).json({
+                status:200,
+                message:`Detail Order ${trxId}`,
+                data:finalResult
+            })
+        }).catch((error) =>{
+            res.status(error.status).json(error)
+        })
+    },
 }
