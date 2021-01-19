@@ -1,6 +1,4 @@
 const trxModel = require('../models/m_trx')
-const form = require ('../helpers/form')
-const { promises } = require('fs')
 
 module.exports = {
     addTrx: (req, res) => {
@@ -53,4 +51,14 @@ module.exports = {
             res.status(error.status).json(error)
         })
     },
+
+    getItemsTrx: (req, res) =>{
+        const {trxId} = req.params
+        trxModel.getOrderDetails(trxId)
+        .then((result) =>{
+            res.status(result.status).json(result)
+        }).catch((error) =>{
+            res.status(error.status).json(error)
+        })
+    }
 }
