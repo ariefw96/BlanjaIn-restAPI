@@ -1,3 +1,4 @@
+const { getUserDetails } = require('./../models/m_user')
 const userModel = require('./../models/m_user')
 
 module.exports = {
@@ -15,6 +16,16 @@ module.exports = {
         const { productId } = req.params
         console.log(productId)
         userModel.getReview(productId)
+            .then((result) => {
+                res.status(result.status).json(result)
+            }).catch((error) => {
+                res.status(error.status).json(error)
+            })
+    },
+
+    getUserDetails: (req, res) =>{
+        const { id } = req.params
+        userModel.getUserDetails(id)
             .then((result) => {
                 res.status(result.status).json(result)
             }).catch((error) => {

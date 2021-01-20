@@ -15,7 +15,7 @@ module.exports = {
                 } else {
                     reject({
                         status: 500,
-                        message: er
+                        message: err
                     })
                 }
             })
@@ -69,7 +69,8 @@ module.exports = {
                     } else {
                         resolve({
                             status: 200,
-                            data: `Belum ada transaksi`
+                            message:'Belum ada transaksi',
+                            data: []
                         })
                     }
                 } else {
@@ -111,6 +112,32 @@ module.exports = {
     getOrderDetails: (trxId) => {
         return new Promise((resolve, reject) => {
             const queryStr = `SELECT * FROM tb_item_order WHERE trxId = ?`
+            db.query(queryStr, trxId, (err, data) => {
+                if (!err) {
+                    if (data.length > 0) {
+                        resolve({
+                            status: 200,
+                            data: data
+                        })
+                    } else {
+                        resolve({
+                            status: 404,
+                            data: `NOT FOUND`
+                        })
+                    }
+                } else {
+                    reject({
+                        status: 500,
+                        message: err
+                    })
+                }
+            })
+        })
+    },
+
+    getItemtoReview: (trxId) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT * FROM tb_item_order WHERE trxId = ? AND isReviewed = 0`
             db.query(queryStr, trxId, (err, data) => {
                 if (!err) {
                     if (data.length > 0) {

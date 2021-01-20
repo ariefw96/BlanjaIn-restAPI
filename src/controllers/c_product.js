@@ -3,15 +3,6 @@ const form = require('../helpers/form')
 const fs = require('fs')
 
 module.exports = {
-    getId: (req, res) => {
-        const {id} = req.params
-        productModel.getId(id)
-        .then((data) => {
-            res.status(200).json(data)
-        }).catch((error) => {
-            res.status(500).json(error)
-        })
-    },
     getById: (req, res) => {
         const { id } = req.params
         productModel.getById(id)
@@ -22,14 +13,44 @@ module.exports = {
                 form.error(res, err)
             })
     },
-    getPivotId: ( req, res) => {
+    getProductFromUser: (req, res) => {
         const { id } = req.params
-        productModel.getPivotId(id)
-        .then((result) => {
-            res.status(200).json(result)
-        }).catch((err) => {
-            res.json(err)
-        })
+        productModel.getProductFromUser(id)
+            .then((data) => {
+                res.status(200).json(data)
+            }).catch((error) => {
+                res.status(500).json(error)
+            })
+    },
+    getSellFromUser: (req, res) => {
+        const { id } = req.params
+        productModel.getSellFromUser(id)
+            .then((data) => {
+                res.status(200).json(data)
+            })
+            .catch((err) => {
+                res.status(500).json(error)
+            })
+    },
+    getProductId: (req, res) => {
+        const { id } = req.params
+        productModel.getProductId(id)
+            .then((data) => {
+                res.status(200).json(data)
+            })
+            .catch((err) => {
+                res.status(500).json(error)
+            })
+    },
+    getMasterId: (req, res) => {
+        const { id } = req.params
+        productModel.getMasterId(id)
+            .then((data) => {
+                res.status(200).json(data)
+            })
+            .catch((err) => {
+                res.status(500).json(error)
+            })
     },
     addNew: (req, res) => {
         let Product_inserted;
@@ -106,7 +127,7 @@ module.exports = {
                     product_img: req.filePath.split(",")
 
                 }
-                res.status(200).json({pesan,updated})
+                res.status(200).json({ pesan, updated })
             }).catch((error) => {
                 res.status(500).json(error)
             })

@@ -1,3 +1,4 @@
+const { query } = require('express')
 const db = require('../config/mySQL')
 module.exports = {
     getById: (id) => {
@@ -19,26 +20,82 @@ module.exports = {
             })
         })
     },
-    getId: (id) => {
+    getProductFromUser: (id) => {
         return new Promise((resolve, reject) => {
-            const queryStr = `SELECT * FROM products WHERE id= ?`
+            const queryStr = `SELECT p.id, p.product_name,c.category_name, p.product_price, p.product_img FROM products p JOIN category c ON p.category_id = c.id WHERE user_id = ?`
             db.query(queryStr, id, (err, data) => {
                 if (!err) {
-                    resolve(data)
+                    resolve({
+                        status: 200,
+                        message: 'sukses',
+                        data: data
+                    })
                 } else {
-                    reject(err)
+                    reject({
+                        status: 500,
+                        message: err
+                    })
                 }
             })
         })
     },
-    getPivotId: (id) => {
+    getSellFromUser: (id) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT m.id,m.product_id, p.product_name,c.category_name, pc.color_name, ps.size_name, pco.condition_name, p.product_desc,p.product_price, p.product_img, m.qty, m.created_at, m.updated_at
+            FROM master m JOIN products p ON m.product_id = p.id 
+            JOIN category c ON p.category_id = c.id 
+            JOIN color pc ON m.color_id = pc.id 
+            JOIN size ps ON m.size_id = ps.id 
+            JOIN conditions pco ON m.condition_id = pco.id
+            WHERE m.user_id = ?
+            ORDER BY m.created_at DESC`
+            db.query(queryStr, id, (err, data) => {
+                if (!err) {
+                    resolve({
+                        status: 200,
+                        data: data
+                    })
+                } else {
+                    reject({
+                        status: 500,
+                        message: err
+                    })
+                }
+            })
+        })
+    },
+    getProductId: (id) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT * FROM products WHERE id= ?`
+            db.query(queryStr, id, (err, data) => {
+                if (!err) {
+                    resolve({
+                        status:200,
+                        data:data[0]
+                    })
+                } else {
+                    reject({
+                        status:500,
+                        message:err
+                    })
+                }
+            })
+        })
+    },
+    getMasterId: (id) => {
         return new Promise((resolve, reject) => {
             const queryStr = `SELECT * FROM master WHERE id = ?`
             db.query(queryStr, id, (err, data) => {
                 if (!err) {
-                    resolve(data)
-                }else{
-                    reject(err)
+                    resolve({
+                        status:200,
+                        data:data[0]
+                    })
+                } else {
+                    reject({
+                        status:500,
+                        message:err
+                    })
                 }
             })
         })
@@ -94,9 +151,16 @@ module.exports = {
             const queryStr = "UPDATE master SET ? WHERE id = ?"
             db.query(queryStr, [updatePatch, id], (err, data) => {
                 if (!err) {
-                    resolve(updatePatch)
+                    resolve({
+                        status:200,
+                        msg:`Data berhasil di update`,
+                        details:updatePatch
+                    })
                 } else {
-                    reject(err)
+                    reject({
+                        status:500,
+                        message:err
+                    })
                 }
             })
         })

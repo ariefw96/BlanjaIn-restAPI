@@ -2,28 +2,34 @@ const express = require('express')
 const productRouter = express.Router()
 const productController = require('../controllers/c_product')
 
-const multiUpload = require ('../helpers/uploadImg')
-
-//get by id
-productRouter.get('/:id', productController.getById )
+const multiUpload = require('../helpers/uploadImg')
 
 const checkToken = require('../helpers/checkToken')
+
+//get by id - home card
+productRouter.get('/:id', productController.getById)
+
+//get All Product based User
+productRouter.get('/user/:id', checkToken.isLogin, checkToken.isSeller, productController.getProductFromUser)
+productRouter.get('/sell/user/:id', checkToken.isLogin, checkToken.isSeller, productController.getSellFromUser)
 //add New Product
-productRouter.post("/add-product",checkToken.isLogin, checkToken.isSeller, multiUpload, productController.addNew)
+productRouter.post("/addProduct", checkToken.isLogin, checkToken.isSeller, multiUpload, productController.addNew)
 //add from Existing Product
-productRouter.post("/add-stock",checkToken.isLogin,checkToken.isSeller, productController.addExisting) 
+productRouter.post("/addStock", checkToken.isLogin, checkToken.isSeller, productController.addExisting)
 //updateProd
-productRouter.patch("/updateProd/:id",checkToken.isSeller,multiUpload, productController.updateProd)
+productRouter.patch("/updateProduct/:id", checkToken.isLogin, checkToken.isSeller, multiUpload, productController.updateProd)
 //update pivot
-productRouter.patch("/update/:id",checkToken.isSeller, productController.updateProduct)
+productRouter.patch("/updateStock/:id", checkToken.isLogin, checkToken.isSeller, productController.updateProduct)
 //deleteProd
-productRouter.delete("/deleteProd/:id", checkToken.isSeller, productController.deleteProd)
+productRouter.delete("/deleteProd/:id", checkToken.isLogin, checkToken.isSeller, productController.deleteProd)
 //delete Pivot
-productRouter.delete("/delete/:id",checkToken.isSeller, productController.deleteProduct)
+productRouter.delete("/deleteStock/:id", checkToken.isLogin, checkToken.isSeller, productController.deleteProduct)
+//get Data Product
+productRouter.get("/getProductData/:id", checkToken.isLogin, checkToken.isSeller, productController.getProductId)
+//get Data Pivot
+productRouter.get("/getStockData/:id", checkToken.isLogin, checkToken.isSeller, productController.getMasterId)
+/
 
-productRouter.get("/getId/:id",checkToken.isSeller, productController.getId)
-
-productRouter.get("/getPivotId/:id",checkToken.isSeller,productController.getPivotId)
 
 //getColor&Size in detailProduct
 productRouter.get("/get_size/:id", productController.getSize)
