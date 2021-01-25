@@ -70,11 +70,13 @@ module.exports = {
                     if (data[0]) {
                         resolve({
                             status: 200,
+                            message: 'data ditemukan',
                             data: data[0]
                         })
                     } else {
                         reject({
                             status: 404,
+                            message: 'data tidak ditemukan',
                             data: 'NOT FOUND'
                         })
                     }
@@ -86,5 +88,24 @@ module.exports = {
                 }
             })
         })
-    }
+    },
+    deleteAddressById: (id) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `DELETE FROM address WHERE id = ?`
+            db.query(queryStr, id, (err, data) => {
+                if (!err) {
+                    resolve({
+                        status: 200,
+                        message: 'alamat berhasil dihapus'
+                    })
+                } else {
+                    reject({
+                        status: 500,
+                        message: err
+                    })
+                }
+            })
+
+        })
+    },
 }

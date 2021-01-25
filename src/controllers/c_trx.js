@@ -23,6 +23,15 @@ module.exports = {
                 res.status(error.status).json(error)
             })
     },
+    getTotalTrans: (req, res) => {
+        const { userId } = req.params
+        trxModel.getTotalTrans(userId)
+            .then((result) => {
+                res.status(200).json(result)
+            }).catch((error) => {
+                res.status(error.status).json(error)
+            })
+    },
     getMyTrans: (req, res) => {
         const { userId } = req.params
         trxModel.getMyTrans(userId)

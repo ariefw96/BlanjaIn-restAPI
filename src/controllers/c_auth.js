@@ -31,7 +31,6 @@ module.exports = {
     },
     login: (req, res) => {
         const { body } = req
-        console.log(body)
         authModel.postLogin(body)
             .then((result) => {
                 res.status(200).json({
@@ -62,7 +61,6 @@ module.exports = {
     },
     reset: (req,res) => {
         const {email, newPassword} = req.body
-        console.log(req.body)
         authModel.resetPassword(email, newPassword)
         .then((result) =>{
             res.status(200).json(result)
@@ -87,5 +85,14 @@ module.exports = {
                     res.status(500).json(error)
                 })
         }
+    },
+    checkExpired: (req, res) =>{
+        const {token} = req.params
+        authModel.expiredToken(token)
+        .then((result) => {
+            res.status(200).json(result)
+        }).catch((error) => {
+            res.status(error.status).json(error)
+        })
     }
 }

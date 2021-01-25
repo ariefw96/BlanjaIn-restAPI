@@ -1,15 +1,6 @@
 const productsModel = require('../models/m_products')
 const form = require('../helpers/form')
 module.exports = {
-  showAll:(req,res) => {
-    const { id } = req.params
-    productsModel.allProduct(id)
-    .then((data) => {
-      form.success(res, data)
-    }).catch((err) => {
-      form.error(res, err)
-    })
-  },
   SearchAndSort: (req, res) => {
     //pagination
     const { query } = req
@@ -27,11 +18,11 @@ module.exports = {
     if (query.limit) {
       query_length -= 1
     }
-    if(query.sortBy){
-      query_length -=1
+    if (query.sortBy) {
+      query_length -= 1
     }
-    if(query.orderBy){
-      query_length -=1
+    if (query.orderBy) {
+      query_length -= 1
     }
     let initial = 1
     if (query_length != 0) {
@@ -80,22 +71,22 @@ module.exports = {
     const { sortBy, orderBy } = req.query
     if (sortBy != null) {
       if (orderBy == `desc`) {
-        addQuery += `ORDER BY  ${sortBy} DESC `
+        addQuery += `ORDER BY ${sortBy} DESC `
         urlQuery += `sortBy=${sortBy}&orderBy=desc&`
-      }else{
+      } else {
         addQuery += `ORDER BY ${sortBy} ASC `
         urlQuery += `sortBy=${sortBy}&orderBy=asc&`
       }
-    }else{
-      addQuery+= `ORDER BY created_at DESC `
-      urlQuery +=`sortBy=created_at&orderBy=desc&`
+    } else {
+      addQuery += `ORDER BY created_at DESC `
+      urlQuery += `sortBy=created_at&orderBy=desc&`
     }
 
-    console.log(urlQuery)
-    console.log(addQuery)
+    // console.log(urlQuery)
+    // console.log(addQuery)
     productsModel.countResult(addQuery)
       .then((result) => {
-        productsModel.SearchAndSort(addQuery, urlQuery,result[0].total_result, page, offset, limit)
+        productsModel.SearchAndSort(addQuery, urlQuery, result[0].total_result, page, offset, limit)
           .then((data) => {
             form.success(res, data)
           }).catch((err) => {
@@ -105,22 +96,4 @@ module.exports = {
         res.status(500).json(error)
       })
   },
-  getAllData: (req, res) => {
-    const { id } = req.params
-    productsModel.allData(id)
-    .then((data) => {
-      res.json(data)
-    }).catch((error) => {
-      console.log('error ?')
-      console.log(error)
-    })
-  },
-  getAllsize: (req, res) => {
-    productsModel.getAllsize()
-    .then((data) => {
-      res.json(data)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
 }

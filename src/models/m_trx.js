@@ -56,6 +56,24 @@ module.exports = {
             }
         })
     },
+    getTotalTrans: (userId) => {
+        return new Promise((resolve, reject) => {
+            const queryStr = `SELECT COUNT(trxId) as total_order FROM tb_transaksi WHERE user_id = ?`
+            db.query(queryStr, userId, (err, data) => {
+                if (!err) {
+                    resolve({
+                        status: 200,
+                        ...data[0]
+                    })
+                } else {
+                    reject({
+                        status: 500,
+                        message: err
+                    })
+                }
+            })
+        })
+    },
     getMyTrans: (userId) => {
         return new Promise((resolve, reject) => {
             const queryStr = `SELECT trxId, trackingNumber, qty,total, status, created_at FROM tb_transaksi WHERE user_id = ?`
@@ -69,7 +87,7 @@ module.exports = {
                     } else {
                         resolve({
                             status: 200,
-                            message:'Belum ada transaksi',
+                            message: 'Belum ada transaksi',
                             data: []
                         })
                     }
@@ -84,28 +102,28 @@ module.exports = {
     },
 
     getTransDetails: (trxId) => {
-        return new Promise ((resolve, reject) =>{
+        return new Promise((resolve, reject) => {
             const queryStr = `SELECT * FROM tb_transaksi JOIN address ON tb_transaksi.address = address.id JOIN payment ON tb_transaksi.payment = payment.id WHERE trxId = ?`
-        db.query(queryStr, trxId, (err, data) => {
-            if (!err) {
-                if (data.length > 0) {
-                    resolve({
-                        status: 200,
-                        data: data[0]
-                    })
+            db.query(queryStr, trxId, (err, data) => {
+                if (!err) {
+                    if (data.length > 0) {
+                        resolve({
+                            status: 200,
+                            data: data[0]
+                        })
+                    } else {
+                        resolve({
+                            status: 404,
+                            data: `NOT FOUND`
+                        })
+                    }
                 } else {
-                    resolve({
-                        status: 404,
-                        data: `NOT FOUND`
+                    reject({
+                        status: 500,
+                        message: err
                     })
                 }
-            } else {
-                reject({
-                    status: 500,
-                    message: err
-                })
-            }
-        })
+            })
         })
     },
 

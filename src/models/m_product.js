@@ -1,28 +1,42 @@
 const { query } = require('express')
 const db = require('../config/mySQL')
 module.exports = {
-    getById: (id) => {
+    getCountProduct: (id) => {
         return new Promise((resolve, reject) => {
-            const queryStr = `SELECT m.id, m.product_id, p.product_name, p.category_id, c.category_name, pc.id AS 'color_id',pc.color_name, ps.id AS 'size_id', ps.size_name, pco.id AS 'condition_id' ,pco.condition_name, p.product_desc, p.product_price, p.product_img, m.qty, m.created_at, m.updated_at FROM master m 
-            JOIN products p ON m.product_id = p.id 
-            JOIN category c ON p.category_id = c.id 
-            JOIN color pc ON m.color_id = pc.id 
-            JOIN size ps ON m.size_id = ps.id 
-            JOIN conditions pco ON m.condition_id = pco.id 
-            WHERE m.product_id = ${id}
-            GROUP BY m.product_id`
-            db.query(queryStr, (err, data) => {
+            const queryStr =
+                `SELECT COUNT(p.id) as total_product
+            FROM products p
+            JOIN category c ON p.category_id = c.id
+            JOIN color cl ON p.color_id = cl.id
+            JOIN size s ON p.size_id = s.id
+            JOIN conditions cd ON p.condition_id = cd.id
+            WHERE user_id = ?`
+            db.query(queryStr, id, (err, data) => {
                 if (!err) {
-                    resolve(data)
+                    resolve({
+                        status: 200,
+                        message: 'sukses',
+                        ...data[0]
+                    })
                 } else {
-                    reject(err)
+                    reject({
+                        status: 500,
+                        message: err
+                    })
                 }
             })
         })
     },
     getProductFromUser: (id) => {
         return new Promise((resolve, reject) => {
-            const queryStr = `SELECT p.id, p.product_name,c.category_name, p.product_price, p.product_img FROM products p JOIN category c ON p.category_id = c.id WHERE user_id = ?`
+            const queryStr =
+                `SELECT p.id, p.product_name, c.category_name, cl.color_name, s.size_name, cd.condition_name
+            FROM products p
+            JOIN category c ON p.category_id = c.id
+            JOIN color cl ON p.color_id = cl.id
+            JOIN size s ON p.size_id = s.id
+            JOIN conditions cd ON p.condition_id = cd.id
+            WHERE user_id = ?`
             db.query(queryStr, id, (err, data) => {
                 if (!err) {
                     resolve({
@@ -39,16 +53,17 @@ module.exports = {
             })
         })
     },
-    getSellFromUser: (id) => {
+    getProductId: (id) => {
         return new Promise((resolve, reject) => {
-            const queryStr = `SELECT m.id,m.product_id, p.product_name,c.category_name, pc.color_name, ps.size_name, pco.condition_name, p.product_desc,p.product_price, p.product_img, m.qty, m.created_at, m.updated_at
-            FROM master m JOIN products p ON m.product_id = p.id 
-            JOIN category c ON p.category_id = c.id 
-            JOIN color pc ON m.color_id = pc.id 
-            JOIN size ps ON m.size_id = ps.id 
-            JOIN conditions pco ON m.condition_id = pco.id
-            WHERE m.user_id = ?
-            ORDER BY m.created_at DESC`
+            const queryStr =
+                `SELECT p.id, p.product_name, c.category_name, cl.color_name, s.size_name, cd.condition_name,p.product_img, p.product_price,p.product_desc, IFNULL(rev.rating,0) as rating, IFNULL(rev.dibeli,0) as dibeli
+            FROM products p
+            JOIN category c ON p.category_id = c.id
+            JOIN color cl ON p.color_id = cl.id
+            JOIN size s ON p.size_id = s.id
+            JOIN conditions cd ON p.condition_id = cd.id
+            LEFT JOIN (SELECT product_id, AVG(rating) as rating, count(rating) as dibeli from tb_review GROUP BY product_id) rev ON p.id = rev.product_id 
+            WHERE p.id = ?`
             db.query(queryStr, id, (err, data) => {
                 if (!err) {
                     resolve({
@@ -64,42 +79,6 @@ module.exports = {
             })
         })
     },
-    getProductId: (id) => {
-        return new Promise((resolve, reject) => {
-            const queryStr = `SELECT * FROM products WHERE id= ?`
-            db.query(queryStr, id, (err, data) => {
-                if (!err) {
-                    resolve({
-                        status:200,
-                        data:data[0]
-                    })
-                } else {
-                    reject({
-                        status:500,
-                        message:err
-                    })
-                }
-            })
-        })
-    },
-    getMasterId: (id) => {
-        return new Promise((resolve, reject) => {
-            const queryStr = `SELECT * FROM master WHERE id = ?`
-            db.query(queryStr, id, (err, data) => {
-                if (!err) {
-                    resolve({
-                        status:200,
-                        data:data[0]
-                    })
-                } else {
-                    reject({
-                        status:500,
-                        message:err
-                    })
-                }
-            })
-        })
-    },
     addNew: (insert_product) => {
         return new Promise((resolve, reject) => {
             const queryStr = "INSERT INTO products SET ?"
@@ -110,21 +89,6 @@ module.exports = {
                             msg: `data berhasil di insert`
                         }
                     )
-                } else {
-                    reject(err)
-                }
-            })
-        })
-    },
-    addExisting: (add_stock) => {
-        return new Promise((resolve, reject) => {
-            const queryStr = "INSERT INTO master SET ?"
-            db.query(queryStr, add_stock, (err, data) => {
-                if (!err) {
-                    resolve({
-                        msg: `stock barang berhasil di tambah`,
-                        data: add_stock
-                    })
                 } else {
                     reject(err)
                 }
@@ -152,14 +116,14 @@ module.exports = {
             db.query(queryStr, [updatePatch, id], (err, data) => {
                 if (!err) {
                     resolve({
-                        status:200,
-                        msg:`Data berhasil di update`,
-                        details:updatePatch
+                        status: 200,
+                        msg: `Data berhasil di update`,
+                        details: updatePatch
                     })
                 } else {
                     reject({
-                        status:500,
-                        message:err
+                        status: 500,
+                        message: err
                     })
                 }
             })
@@ -193,44 +157,4 @@ module.exports = {
             })
         })
     },
-    deleteProduct: (id) => {
-        return new Promise((resolve, reject) => {
-            const qs = "DELETE FROM master WHERE id = ?";
-            db.query(qs, id, (err, data) => {
-                if (!err) {
-                    resolve(`Data berhasil dihapus pada id = ${id}`);
-                } else {
-                    reject(err);
-                }
-            });
-        });
-    },
-    getSize: (id) => {
-        return new Promise((resolve, reject) => {
-            const queryStr = `SELECT m.product_id, s.id, s.size_name FROM master m
-                            JOIN size s ON m.size_id = s.id
-                            WHERE m.product_id = ? GROUP BY s.size_name`
-            db.query(queryStr, id, (err, data) => {
-                if (!err) {
-                    resolve(data)
-                } else {
-                    reject(err)
-                }
-            })
-        })
-    },
-    getColor: (id) => {
-        return new Promise((resolve, reject) => {
-            const queryStr = `SELECT m.product_id,c.id, c.color_name FROM master m
-                            JOIN color c ON m.color_id = c.id
-                            WHERE m.product_id = ? GROUP BY c.color_name`
-            db.query(queryStr, id, (err, data) => {
-                if (!err) {
-                    resolve(data)
-                } else {
-                    reject(err)
-                }
-            })
-        })
-    }
 }

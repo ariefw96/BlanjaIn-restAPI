@@ -3,16 +3,6 @@ const form = require('../helpers/form')
 const fs = require('fs')
 
 module.exports = {
-    getById: (req, res) => {
-        const { id } = req.params
-        productModel.getById(id)
-            .then((data) => {
-                form.success(res, data)
-            })
-            .catch((err) => {
-                form.error(res, err)
-            })
-    },
     getProductFromUser: (req, res) => {
         const { id } = req.params
         productModel.getProductFromUser(id)
@@ -22,29 +12,18 @@ module.exports = {
                 res.status(500).json(error)
             })
     },
-    getSellFromUser: (req, res) => {
+    getCountProduct: (req, res) => {
         const { id } = req.params
-        productModel.getSellFromUser(id)
+        productModel.getCountProduct(id)
             .then((data) => {
                 res.status(200).json(data)
-            })
-            .catch((err) => {
+            }).catch((error) => {
                 res.status(500).json(error)
             })
     },
     getProductId: (req, res) => {
         const { id } = req.params
         productModel.getProductId(id)
-            .then((data) => {
-                res.status(200).json(data)
-            })
-            .catch((err) => {
-                res.status(500).json(error)
-            })
-    },
-    getMasterId: (req, res) => {
-        const { id } = req.params
-        productModel.getMasterId(id)
             .then((data) => {
                 res.status(200).json(data)
             })
@@ -76,20 +55,6 @@ module.exports = {
                     ...data,
                     Product_inserted
                 })
-            }).catch((err) => {
-                res.json(err)
-            })
-    },
-    addExisting: (req, res) => {
-        const { user_id } = req.decodedToken
-        add_stock = {
-            ...req.body,
-            user_id
-        }
-
-        productModel.addExisting(add_stock)
-            .then((data) => {
-                form.success(res, data)
             }).catch((err) => {
                 res.json(err)
             })
@@ -132,24 +97,6 @@ module.exports = {
                 res.status(500).json(error)
             })
     },
-    updateProduct: (req, res) => {
-        const { id } = req.params //update ID at req.params
-        const { body } = req
-        const updatePatch = {
-            ...body,
-            updated_at: new Date(Date.now())
-        }
-        productModel.updateProduct(id, updatePatch)
-            .then((result) => {
-                const output = {
-                    msg: `Data updated at id ${id}`,
-                    ...result,
-                }
-                res.json(output)
-            }).catch((err) => {
-                res.json(err)
-            })
-    },
     deleteProd: (req, res) => {
         const { id } = req.params
         productModel.deleteFile(id)
@@ -176,34 +123,4 @@ module.exports = {
                 res.status(500).json(error)
             })
     },
-    deleteProduct: (req, res) => {
-        const { id } = req.params
-        productModel.deleteProduct(id)
-            .then((data) => {
-                const output = {
-                    deletedId: id,
-                    msg: data
-                }
-                form.success(res, output)
-            })
-            .catch((err) => {
-                form.error(res, err)
-            })
-    },
-    getSize: (req, res) => {
-        const { id } = req.params
-        productModel.getSize(id).then((data) => {
-            form.success(res, data)
-        }).catch((err) => {
-            form.error(res, err)
-        })
-    },
-    getColor: (req, res) => {
-        const { id } = req.params
-        productModel.getColor(id).then((data) => {
-            form.success(res, data)
-        }).catch((err) => {
-            form.error(res, err)
-        })
-    }
 }

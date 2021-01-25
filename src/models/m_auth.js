@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const otp = require('otp-generator')
 const nodemailer = require('nodemailer')
+const { error } = require('../helpers/form')
 
 module.exports = {
     postNewUser: (body) => {
@@ -158,7 +159,7 @@ module.exports = {
                                                     pass: process.env.PASS_EMAIL
                                                 }
                                             })
-                                            console.log(process.env.USER_EMAIL, process.env.PASS_EMAIL)
+                                            // console.log(process.env.USER_EMAIL, process.env.PASS_EMAIL)
 
                                             let mailOptions = {
                                                 from: "BlanjaApp Team <blanja@mail.com>",
@@ -229,7 +230,7 @@ module.exports = {
                     })
                 } else {
                     //no result data 
-                    if (!data[0]) {
+                    if (data.length < 1) {
                         reject({
                             status: 404,
                             msg: `Username atau password salah!`
@@ -243,7 +244,7 @@ module.exports = {
                         //comparing pw
                         bcrypt.compare(password, data[0].password, (error, result) => {
                             //what is this ?
-                            if (err) {
+                            if (error) {
                                 reject({
                                     status:500,
                                     msg: `Proses Hash Error!`
@@ -264,7 +265,7 @@ module.exports = {
                                     level: data[0].level_id
                                 }
                                 //generate token 
-                                const token = jwt.sign(payload, process.env.SECRET_KEY)
+                                const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:'72h'})
                                 //resolve token to user(FE)
                                 resolve({
                                     user_id: data[0].id,
@@ -310,7 +311,7 @@ module.exports = {
                                                 pass: process.env.PASS_EMAIL
                                             }
                                         })
-                                        console.log(process.env.USER_EMAIL, process.env.PASS_EMAIL)
+                                        // console.log(process.env.USER_EMAIL, process.env.PASS_EMAIL)
 
                                         let mailOptions = {
                                             from: "BlanjaApp Team <blanja@mail.com>",
@@ -454,6 +455,23 @@ module.exports = {
                     })
                 }
             })
+        })
+    },
+    expiredToken: (token) =>{
+        return new Promise ((resolve, reject) =>{
+            try{
+                const tokenNotExpired = jwt.verify(token, process.env.SECRET_KEY)
+                console.log(tokenNotExpired)
+                resolve({
+                    status:200,
+                    message:`Token masih berfungsi`
+                })
+            }catch(error){
+                reject({
+                    status:401,
+                    message:'token Expired'
+                })
+            }
         })
     }
 }
