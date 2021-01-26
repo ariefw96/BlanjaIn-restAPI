@@ -30,13 +30,14 @@ module.exports = {
     getProductFromUser: (id) => {
         return new Promise((resolve, reject) => {
             const queryStr =
-                `SELECT p.id, p.product_name, c.category_name, cl.color_name, s.size_name, cd.condition_name
+                `SELECT p.id, p.product_name, c.category_name, cl.color_name, s.size_name, cd.condition_name, p.product_img, p.product_price, p.created_at
             FROM products p
             JOIN category c ON p.category_id = c.id
             JOIN color cl ON p.color_id = cl.id
             JOIN size s ON p.size_id = s.id
             JOIN conditions cd ON p.condition_id = cd.id
-            WHERE user_id = ?`
+            WHERE user_id = ?
+            ORDER BY p.created_at DESC`
             db.query(queryStr, id, (err, data) => {
                 if (!err) {
                     resolve({
@@ -56,7 +57,7 @@ module.exports = {
     getProductId: (id) => {
         return new Promise((resolve, reject) => {
             const queryStr =
-                `SELECT p.id, p.product_name, c.category_name, cl.color_name, s.size_name, cd.condition_name,p.product_img, p.product_price,p.product_desc, IFNULL(rev.rating,0) as rating, IFNULL(rev.dibeli,0) as dibeli
+                `SELECT p.id, p.product_name,p.category_id, c.category_name,p.color_id, cl.color_name,p.size_id, s.size_name,p.condition_id, cd.condition_name,p.product_img, p.product_price,p.product_desc, IFNULL(rev.rating,0) as rating, IFNULL(rev.dibeli,0) as dibeli
             FROM products p
             JOIN category c ON p.category_id = c.id
             JOIN color cl ON p.color_id = cl.id

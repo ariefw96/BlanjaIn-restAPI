@@ -62,5 +62,30 @@ module.exports = {
                 }
             })
         })
+    },
+
+    //iseng, belum dicoba
+    addFavourite : (bookmarkData) => {
+        return new Promise ((resolve, reject) =>{
+            const queryStr = `INSERT INTO tb_favourite SET ?`
+            db.query(queryStr,bookmarkData, (err, data) =>{
+                if(!err){
+                    resolve({
+                        status:200
+                    })
+                }else{
+                    reject({
+                        status:500,
+                        message:err
+                    })
+                }
+            })
+        })
+    },
+    getFavouriteUser: (userId) => {
+        return new Promise ((resolve, reject) =>{
+            
+        })
     }
+    
 }
