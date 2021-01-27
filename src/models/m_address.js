@@ -89,7 +89,7 @@ module.exports = {
             })
         })
     },
-    deleteAddressById: (id) => {
+    deleteAddressId: (id) => {
         return new Promise((resolve, reject) => {
             const queryStr = `DELETE FROM address WHERE id = ?`
             db.query(queryStr, id, (err, data) => {

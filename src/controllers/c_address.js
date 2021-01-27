@@ -45,7 +45,7 @@ module.exports = {
     //deleteAddress
     deleteAdress: (req, res) =>{
         const {id} = req.params
-        addressModel.deleteAdressById(id)
+        addressModel.deleteAddressId(id)
         .then((result) =>{
             res.status(200).json(result)
         }).catch((error) =>{
