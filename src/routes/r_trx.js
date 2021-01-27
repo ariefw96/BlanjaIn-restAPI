@@ -9,5 +9,7 @@ transactionRouter.get("/totalTransaction/:userId",transactionController.getTotal
 transactionRouter.get("/getOrderDetail/:trxId", transactionController.getOrderDetails)
 transactionRouter.get("/trx/:trxId", transactionController.getItemsTrx)
 transactionRouter.get("/itemToReview/:trxId", transactionController.getItemsTrx)
-
+transactionRouter.get('/OrderData', transactionController.getSellerOrderData)
+transactionRouter.patch('/changeStatus/:status/:trxid', transactionController.changeStatusOrder)
+transactionRouter.patch('/updateResi/:trxid/:trackingnumber',transactionController.updateResi)
 module.exports = transactionRouter

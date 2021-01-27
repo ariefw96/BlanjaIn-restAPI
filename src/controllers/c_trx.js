@@ -79,5 +79,32 @@ module.exports = {
             }).catch((error) => {
                 res.status(error.status).json(error)
             })
+    },
+
+    getSellerOrderData: (req, res) => {
+        trxModel.getSellerOrderData()
+            .then((result) => {
+                res.status(result.status).json(result)
+            }).catch((error) => {
+                res.status(error.status).json(error)
+            })
+    },
+    changeStatusOrder: (req, res) => {
+        const { status, trxid } = req.params
+        trxModel.changeStatusOrder(status, trxid)
+            .then((result) => {
+                res.status(result.status).json(result)
+            }).catch((error) => {
+                res.status(error.status).json(error)
+            })
+    },
+    updateResi: (req, res) =>{
+        const {trxid, trackingnumber} = req.params
+        trxModel.updateResi(trxid, trackingnumber)
+        .then((result) => {
+            res.status(result.status).json(result)
+        }).catch((error) => {
+            res.status(error.status).json(error)
+        })
     }
 }

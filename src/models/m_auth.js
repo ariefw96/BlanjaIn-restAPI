@@ -220,12 +220,12 @@ module.exports = {
     },
     postLogin: (body) => {
         return new Promise((resolve, reject) => {
-            const { email, password } = body           
+            const { email, password } = body
             const queryStr = `SELECT id, email, password, level_id, fullname, isActive FROM tb_user WHERE email = ?`
-            db.query(queryStr,email, (err, data) => {
+            db.query(queryStr, email, (err, data) => {
                 if (err) {
                     reject({
-                        status:500,
+                        status: 500,
                         msg: `Error ditemukan pada query`
                     })
                 } else {
@@ -246,7 +246,7 @@ module.exports = {
                             //what is this ?
                             if (error) {
                                 reject({
-                                    status:500,
+                                    status: 500,
                                     msg: `Proses Hash Error!`
                                 })
                             }
@@ -265,7 +265,7 @@ module.exports = {
                                     level: data[0].level_id
                                 }
                                 //generate token 
-                                const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:'72h'})
+                                const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '72h' })
                                 //resolve token to user(FE)
                                 resolve({
                                     user_id: data[0].id,
@@ -457,21 +457,22 @@ module.exports = {
             })
         })
     },
-    expiredToken: (token) =>{
-        return new Promise ((resolve, reject) =>{
-            try{
+    expiredToken: (token) => {
+        return new Promise((resolve, reject) => {
+            try {
                 const tokenNotExpired = jwt.verify(token, process.env.SECRET_KEY)
                 console.log(tokenNotExpired)
                 resolve({
-                    status:200,
-                    message:`Token masih berfungsi`
+                    status: 200,
+                    message: `Token masih berfungsi`
                 })
-            }catch(error){
+            } catch (error) {
                 reject({
-                    status:401,
-                    message:'token Expired'
+                    status: 401,
+                    message: 'token Expired'
                 })
             }
         })
-    }
+    },
+
 }

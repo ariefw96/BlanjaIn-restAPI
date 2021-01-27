@@ -23,9 +23,18 @@ module.exports = {
             })
     },
 
-    getUserDetails: (req, res) =>{
+    getUserDetails: (req, res) => {
         const { id } = req.params
         userModel.getUserDetails(id)
+            .then((result) => {
+                res.status(result.status).json(result)
+            }).catch((error) => {
+                res.status(error.status).json(error)
+            })
+    },
+    changePassword: (req, res) => {
+        const { body } = req
+        userModel.changePassword(body)
             .then((result) => {
                 res.status(result.status).json(result)
             }).catch((error) => {
