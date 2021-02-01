@@ -8,11 +8,11 @@ this project is a simple implementation of RESTful API using *framework* Express
 - npm [Node.js](https://nodejs.org/en/download/)
   
 
-- ExpressJS,  MySQL, Morgan
+- ExpressJS,  MySQL, Morgan, Bcrypt, JWT, Fs, NodeMailer, OTP-Generator, Socket.io
   
 
 ```
-npm install express mysql morgan
+npm install express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator socket.io@2.3.0
 ```
 
 ## Getting started
@@ -51,6 +51,16 @@ npm install express mysql morgan
     database: process.env.DATABASE
   });
   ```
+4. .env example
+  ``
+  MYSQL_HOST = "host"
+  MYSQL_USER = "username"
+  MYSQL_PASSWORD = "password"
+  MYSQL_DATABASE = "database"
+  USER_EMAIL = your_smtp_email@mail.com
+  PASS_EMAIL = your_password
+  SECRET_KEY = "VERY_SECRET_KEY"
+  ``
   
 
 ### Endpoint scheme <STILL UPDATED>
