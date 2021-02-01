@@ -25,7 +25,7 @@ npm install express mysql morgan
   git clone https://github.com/ariefw96/blanja-restAPI-backup
   ```
   
-2. Install additional package
+2. Install package from package.json
   
   - npm
     
@@ -38,7 +38,7 @@ npm install express mysql morgan
     
   
   ```
-  yarn add
+  yarn install
   ```
   
 3. Config database, you can set the configuration according to config folder
@@ -88,7 +88,7 @@ PATCH
 
 ```js
 DELETE
-/api/product/delete:id
+/api/product/delete/:id
 ```
 
 POSTMAN DOCUMENTATION 
