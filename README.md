@@ -1,7 +1,7 @@
 # blanja-REST-API
 ## About project
 
-this project is a simple implementation of RESTful API using *framework* ExpressJS and mySQL *database* made for for <a href="blanja-proto.netlify.app">BlanjaIn</a> website
+this project is a simple implementation of RESTful API using *framework* ExpressJS and MySQL *database* made for for <a href="blanja-proto.netlify.app">BlanjaIn</a> website
 
 ## Requirements
 
@@ -13,6 +13,10 @@ this project is a simple implementation of RESTful API using *framework* Express
 
 ```
 npm install express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator socket.io@2.3.0
+```
+**OR**
+```
+yarn add express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator socket.io@2.3.0
 ```
 
 ## Getting started
@@ -45,10 +49,10 @@ npm install express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator
   
   ```
   const conn = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
   });
   ```
 4. .env example
