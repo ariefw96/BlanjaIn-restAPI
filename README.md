@@ -22,10 +22,10 @@ npm install express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator
 1. Clone repository
   
   ```
-  git clone https://github.com/ariefw96/blanja-restAPI-backup
+  git clone https://github.com/ariefw96/blanja-restAPI.git
   ```
   
-2. Install package from package.json
+2. Install dependencies from package.json
   
   - npm
     
@@ -63,44 +63,9 @@ npm install express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator
   SECRET_KEY = "VERY_SECRET_KEY"
   ```
   
+5. Dont forget to turn on server for MySQL database
+6. Type `yarn start` or `npm start` to run this project
+7. Happy coding!
 
-### Endpoint scheme <STILL UPDATED>
-
-- get all product
-
-```js
-GET
-/api/products
-```
-
-- get product by ID
-
-```js
-GET
-/api/product/:id
-```
-
-- add new product
-
-```js
-POST
-/api/product/add-product
-/api/product/add-stock
-```
-
-- edit product
-
-```js
-PATCH
-/api/product/update/:id
-```
-
-- delete product
-
-```js
-DELETE
-/api/product/delete/:id
-```
-
-POSTMAN DOCUMENTATION 
-[here](https://documenter.getpostman.com/view/13530339/TVmS9G4V)
+For more information about documentation, check it out below ! 
+[POSTMAN DOCUMENTATION](https://documenter.getpostman.com/view/13530339/TVmS9G4V)
