@@ -68,4 +68,5 @@ npm install express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator
 7. Happy coding!
 
 For more information about documentation, check it out below ! 
+
 [POSTMAN DOCUMENTATION](https://documenter.getpostman.com/view/13530339/TVmS9G4V)
