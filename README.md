@@ -1,7 +1,7 @@
 # blanja-REST-API
 ## About project
 
-this project is a simple implementation of RESTful API using *framework* ExpressJS and mySQL *database* made for for [Blanja](blanja-proto.netlify.app) website
+this project is a simple implementation of RESTful API using *framework* ExpressJS and mySQL *database* made for for <a href="blanja-proto.netlify.app">BlanjaIn</a> website
 
 ## Requirements
 
