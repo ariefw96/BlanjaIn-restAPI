@@ -48,7 +48,7 @@ module.exports = {
     },
     getUserDetails: (id) =>{
         return new Promise ((resolve, reject) =>{
-            const queryStr = `SELECT * FROM tb_user WHERE id = ?`
+            const queryStr = `SELECT email, fullname, photo, storeName FROM tb_user WHERE id = ?`
             db.query(queryStr, id, (err, data) =>{
                 if(!err){
                     resolve({

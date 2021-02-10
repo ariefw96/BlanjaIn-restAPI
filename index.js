@@ -3,28 +3,36 @@ const express = require('express');
 const logger = require('morgan');
 const app = express();
 const port = 8000
-// const db = require('./src/config/mySQL')
 const mainRouter = require('./src/routes/index')
 const cors = require('cors')
-
-
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
-// const port = 3000;
+const http = require('http')
+const server = http.createServer(app)
+const socketio = require("socket.io")
+const io = socketio(server).sockets
  
-io.on("connection", socket => {
-  console.log("a user connected :D");
-  socket.on("chat message", msg => {
-    console.log(msg);
-    io.emit("chat message", msg);
+global.io = io
+
+io.on("connection", (socket) => {
+  const id = socket.handshake.query.user_id;
+  console.log("a user connected ...",id, socket.id);
+  socket.join(id);
+  socket.on("chat message", (msg, id_recipient) => {
+    console.log(`=====================`)
+    console.log('sender'+msg.sender);
+    console.log('penerima '+id_recipient);
+    console.log('id handshake'+id)
+    console.log(msg)
+    io.to(id_recipient).to(id).emit("chat message", msg);
+  });
+  socket.on('fromBuyer', msgEvent =>{
+	  socket.emit('fromBuyer',msgEvent);
+  });
+  socket.on('fromSeller', msgEvent =>{
+	  socket.emit('fromSeller',msgEvent);
   });
 });
 
 server.listen(port, () => console.log("server running on port:" + port));
-// // listen port
-// app.listen(port, () => { 
-//     console.log(`server running in port ${port}`);
-// })
 
 //memperbolehkan akses dari semua origin
 app.use(express.static('public'))

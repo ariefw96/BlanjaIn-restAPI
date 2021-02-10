@@ -9,6 +9,7 @@ const trxRouter = require('./r_trx')
 const addressRouter = require ('./r_address')
 const userRouter = require ('./r_user')
 const kurirRouter = require ('./r_kurir')
+const chatRouter = require ('./r_chat')
 
 //calling endpoint handler
 mainRouter.use("/", welcomeRouter)
@@ -25,6 +26,7 @@ mainRouter.use("/auth", authRouter) //endpoint auth
 mainRouter.use("/transaksi", trxRouter) //Trx
 mainRouter.use("/user", userRouter)
 mainRouter.use("/kurir", kurirRouter)
+mainRouter.use('/chat', chatRouter)
 
 
 module.exports = mainRouter

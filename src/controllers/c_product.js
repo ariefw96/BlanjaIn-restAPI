@@ -4,7 +4,7 @@ const fs = require('fs')
 
 module.exports = {
     getProductFromUser: (req, res) => {
-        const { id } = req.params
+        const id = req.decodedToken.user_id
         productModel.getProductFromUser(id)
             .then((data) => {
                 res.status(200).json(data)
@@ -28,7 +28,7 @@ module.exports = {
                 res.status(200).json(data)
             })
             .catch((err) => {
-                res.status(500).json(error)
+                res.status(500).json(err)
             })
     },
     addNew: (req, res) => {

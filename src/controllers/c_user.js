@@ -24,7 +24,7 @@ module.exports = {
     },
 
     getUserDetails: (req, res) => {
-        const { id } = req.params
+        const id = req.decodedToken.user_id
         userModel.getUserDetails(id)
             .then((result) => {
                 res.status(result.status).json(result)
@@ -33,7 +33,11 @@ module.exports = {
             })
     },
     changePassword: (req, res) => {
-        const { body } = req
+        let { body } = req
+        body = {
+            ...body,
+            email:req.decodedToken.email
+        }
         userModel.changePassword(body)
             .then((result) => {
                 res.status(result.status).json(result)

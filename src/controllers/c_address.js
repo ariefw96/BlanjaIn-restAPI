@@ -24,7 +24,8 @@ module.exports = {
     },
     //getAdressByUserId
     getAddress: (req, res) =>{
-        const {userId} = req.params
+        const userId = req.decodedToken.user_id
+        console.log(userId)
         addressModel.getAddress(userId)
         .then((result) =>{
             res.status(result.status).json(result)
@@ -52,4 +53,4 @@ module.exports = {
             res.status(error.status).json(error)
         })
     }
-}
+} 

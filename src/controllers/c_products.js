@@ -24,6 +24,7 @@ module.exports = {
     if (query.orderBy) {
       query_length -= 1
     }
+    console.log(query_length)
     let initial = 1
     if (query_length != 0) {
       addQuery += `WHERE `

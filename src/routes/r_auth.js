@@ -11,7 +11,7 @@ authRouter.post("/login", authController.login)
 authRouter.post("/forgot", authController.forgot)
 authRouter.get("/otp/:email/:otp", authController.otp)
 authRouter.patch("/reset", authController.reset)
-authRouter.post("/logout",checkToken.isLogin, authController.logout)
+authRouter.delete("/logout",checkToken.isLogin, authController.logout)
 authRouter.get("/checkTokenExpired/:token", authController.checkExpired)
 
 

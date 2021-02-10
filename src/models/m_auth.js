@@ -168,7 +168,8 @@ module.exports = {
                                                 html:
                                                     ` 
                                                 <h1> OTP CODE from Blanja.in Team </h1>
-                                                <p> Hello, this is you OTP code ${otpCode} </p> 
+                                                <p> Hello, this is you OTP code</p> 
+                                                <h2>${otpCode}</h2>
                                                 <p> Use it to Activate Account </p>
                                                 `
                                             }
@@ -320,7 +321,8 @@ module.exports = {
                                             html:
                                                 ` 
                                                 <h1> OTP CODE from Blanja.in Team </h1>
-                                                <p> Hello, this is you OTP code ${otpCode} </p> 
+                                                <p> Hello, this is you OTP code</p> 
+                                                <h2>${otpCode} </h2>
                                                 <p> Use it to reset your password </p>
                                                 `
                                         }

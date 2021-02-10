@@ -57,14 +57,16 @@ module.exports = {
     getProductId: (id) => {
         return new Promise((resolve, reject) => {
             const queryStr =
-                `SELECT p.id, p.product_name,p.category_id, c.category_name,p.color_id, cl.color_name,p.size_id, s.size_name,p.condition_id, cd.condition_name,p.product_img, p.product_price,p.product_desc, IFNULL(rev.rating,0) as rating, IFNULL(rev.dibeli,0) as dibeli
+                `SELECT p.id,p.user_id as seller_id,us.fullname,  p.product_name,p.category_id, c.category_name,p.color_id, cl.color_name,p.size_id, s.size_name,p.condition_id, cd.condition_name,p.product_img, p.product_price,p.product_desc, IFNULL(rev.rating,0) as rating, IFNULL(rev.dibeli,0) as dibeli
             FROM products p
+            JOIN tb_user us ON p.user_id = us.id
             JOIN category c ON p.category_id = c.id
             JOIN color cl ON p.color_id = cl.id
             JOIN size s ON p.size_id = s.id
             JOIN conditions cd ON p.condition_id = cd.id
             LEFT JOIN (SELECT product_id, AVG(rating) as rating, count(rating) as dibeli from tb_review GROUP BY product_id) rev ON p.id = rev.product_id 
             WHERE p.id = ?`
+            // console.log(queryStr)
             db.query(queryStr, id, (err, data) => {
                 if (!err) {
                     resolve({
