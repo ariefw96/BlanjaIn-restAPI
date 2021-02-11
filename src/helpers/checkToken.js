@@ -11,7 +11,7 @@ module.exports = {
             db.query(queryStr, email, (err, data) => {
                 if (!err) {
                     if (!data[0]) {
-                        resolve({                      
+                        resolve({
                             msg: `success`
                         })
                     } else {
@@ -22,7 +22,7 @@ module.exports = {
                 } else {
                     reject({
                         msg: `SQLquery ERROR!`,
-                        details:err
+                        details: err
                     })
                 }
             })
@@ -34,10 +34,10 @@ module.exports = {
     },
     isLogin: (req, res, next) => {
         const bearerToken = req.header("x-access-token");
-        console.log(bearerToken)
+        // console.log(bearerToken)
         //jika tidak ada header x-access-token
         if (!bearerToken) {
-            res.json({
+            res.status(401).json({
                 msg: `Please login first`,
                 status: 401 //unauthorized access
             })
@@ -66,7 +66,6 @@ module.exports = {
                     decodedToken = jsonwebtoken.verify(result, process.env.SECRET_KEY)
                     //asign decodedToken to req
                     req.decodedToken = decodedToken
-
                     next() //meneruskan ke proses selanjutnya
                 } catch (err) {
                     res.json({
@@ -74,7 +73,7 @@ module.exports = {
                     })
                 }
             }).catch((error) => {
-                res.json(error)
+                res.status(500).json(error)
             })
         }
     },

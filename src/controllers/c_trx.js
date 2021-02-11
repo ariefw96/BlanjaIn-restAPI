@@ -97,11 +97,11 @@ module.exports = {
         const { status, trxid } = req.params
         let statusPesanan;
         if(status == 2){
-            statusPesanan = 'Pesanan kamu sedang dikemas~'
+            statusPesanan = 'Pesanan kamu dengan no transaksi '+trxid+' sedang dikemas~'
         }else if(status == 3){
-            statusPesanan = 'Pesanan kamu sudah dikirim sama seller~'
+            statusPesanan = 'Pesanan kamu dengan no transaksi '+trxid+' sudah dikirim sama seller~'
         }else if(status == 4){
-            statusPesanan = 'Pesanan sudah diterima oleh pembeli~'
+            statusPesanan = 'Pesanan sudah dengan no transaksi '+trxid+' diterima oleh pembeli~'
         }
         trxModel.getOrderDetails(trxid)
             .then((result) => {
