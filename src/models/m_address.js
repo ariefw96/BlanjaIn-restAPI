@@ -5,6 +5,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const queryStr = `INSERT INTO address SET ?`
             db.query(queryStr, body, (err, data) => {
+                console.log(err, data)
                 if (!err) {
                     resolve({
                         status: 200,

@@ -4,6 +4,7 @@ module.exports = {
     //addNewAdress
     addAddress: (req, res) => {
         const {body} = req
+        console.log(body)
         addressModel.postNewAddress(body)
         .then((result) =>{
             res.status(200).json(result)

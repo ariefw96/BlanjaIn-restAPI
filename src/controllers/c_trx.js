@@ -1,3 +1,4 @@
+const { stat } = require('fs')
 const trxModel = require('../models/m_trx')
 
 module.exports = {
@@ -6,6 +7,9 @@ module.exports = {
         console.log(body)
         trxModel.addTrx(body)
             .then((result) => {
+                if (global.io.emit('toSeller', 'Ada order masuk nich~')) {
+                    console.log('send to Seller sukses')
+                }
                 res.status(200).json(result)
             }).catch((error) => {
                 res.status(error.status).json(error)
@@ -91,20 +95,45 @@ module.exports = {
     },
     changeStatusOrder: (req, res) => {
         const { status, trxid } = req.params
-        trxModel.changeStatusOrder(status, trxid)
+        let statusPesanan;
+        if(status == 2){
+            statusPesanan = 'Pesanan kamu sedang dikemas~'
+        }else if(status == 3){
+            statusPesanan = 'Pesanan kamu sudah dikirim sama seller~'
+        }else if(status == 4){
+            statusPesanan = 'Pesanan sudah diterima oleh pembeli~'
+        }
+        trxModel.getOrderDetails(trxid)
+            .then((result) => {
+                const user_id = result.data[0].user_id
+                trxModel.changeStatusOrder(status, trxid)
+                    .then((result) => {
+                        if(status != 4){
+                            if (global.io.to(user_id).emit('toBuyer', statusPesanan)) {
+                                console.log('send to '+user_id+' sukses')
+                            }
+                        }else{
+                            if (global.io.emit('toSeller', statusPesanan)) {
+                                console.log('send to Seller sukses')
+                            }
+                        }
+                        res.status(result.status).json(result)
+                    }).catch((error) => {
+                        res.status(error.status).json(error)
+                    })
+
+            }).catch((error) => {
+                res.status(error.status).json(error)
+            })
+
+    },
+    updateResi: (req, res) => {
+        const { trxid, trackingnumber } = req.params
+        trxModel.updateResi(trxid, trackingnumber)
             .then((result) => {
                 res.status(result.status).json(result)
             }).catch((error) => {
                 res.status(error.status).json(error)
             })
-    },
-    updateResi: (req, res) =>{
-        const {trxid, trackingnumber} = req.params
-        trxModel.updateResi(trxid, trackingnumber)
-        .then((result) => {
-            res.status(result.status).json(result)
-        }).catch((error) => {
-            res.status(error.status).json(error)
-        })
     }
 }
