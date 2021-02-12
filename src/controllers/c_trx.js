@@ -4,10 +4,9 @@ const trxModel = require('../models/m_trx')
 module.exports = {
     addTrx: (req, res) => {
         const { body } = req
-        console.log(body)
         trxModel.addTrx(body)
             .then((result) => { 
-                if (global.io.emit('toSeller', 'Ada order masuk nich~')) {
+                if (global.io.emit('toSeller', `Order masuk dengan no. Transaksi ${body.TrxId} `)) {
                     console.log('send to Seller sukses')
                 }
                 res.status(200).json(result)
@@ -19,9 +18,8 @@ module.exports = {
 
     addMultiple: (req, res) => {
         const { body } = req
-        console.log(body)
         trxModel.addOrder(body)
-            .then((result) => {
+            .then((result) => {         
                 res.status(200).json(result)
             }).catch((error) => {
                 res.status(error.status).json(error)

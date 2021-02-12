@@ -28,7 +28,6 @@ module.exports = {
             let status = 200;
             let errData = null
             body.map((items) => {
-                console.log(items)
                 const queryStr = `INSERT INTO tb_item_order SET ?`
                 db.query(queryStr, items, (err, data) => {
 
