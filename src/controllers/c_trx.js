@@ -6,7 +6,7 @@ module.exports = {
         const { body } = req
         console.log(body)
         trxModel.addTrx(body)
-            .then((result) => {
+            .then((result) => { 
                 if (global.io.emit('toSeller', 'Ada order masuk nich~')) {
                     console.log('send to Seller sukses')
                 }
