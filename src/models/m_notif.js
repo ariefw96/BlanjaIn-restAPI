@@ -22,7 +22,7 @@ module.exports = {
     },
     getNotifSeller: (id) => {
         return new Promise ((resolve, reject) =>{
-            const queryStr = `SELECT * FROM tb_notification WHERE user_id = ? and level = 2`
+            const queryStr = `SELECT * FROM tb_notification WHERE user_id = ? and level = 2 ORDER BY id DESC`
             db.query(queryStr, id, (err, data) =>{
                 if(!err){
                     resolve({
@@ -41,7 +41,7 @@ module.exports = {
     },
     getNotifBuyer: (id) => {
         return new Promise ((resolve, reject) =>{
-            const queryStr = `SELECT * FROM tb_notification WHERE user_id = ? and level = 1`
+            const queryStr = `SELECT * FROM tb_notification WHERE user_id = ? and level = 1 ORDER BY id DESC`
             db.query(queryStr, id, (err, data) =>{
                 console.log(err, data)
                 if(!err){
