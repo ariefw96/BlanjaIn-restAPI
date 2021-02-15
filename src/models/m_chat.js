@@ -76,11 +76,11 @@ module.exports = {
     getNewMessage: (chatRoom) => {
         return new Promise((resolve, reject) => {
             const queryStr = `
-            SELECT c.seller, c.buyer,c.chatRoom, c.sender as sender_id, u.fullname as sender_name, c.message, c.created_at 
+            SELECT c.id,c.seller, c.buyer,c.chatRoom, c.sender as sender_id, u.fullname as sender_name, c.message, c.created_at 
             FROM tb_chat c 
             JOIN tb_user u ON c.sender = u.id 
             WHERE c.chatRoom = ?
-            ORDER BY c.created_at ASC`
+            ORDER BY c.created_at DESC`
             db.query(queryStr, chatRoom, (err, data) => {
                 if (!err) {
                     if (data.length > 0) {

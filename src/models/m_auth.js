@@ -266,7 +266,7 @@ module.exports = {
                                     level: data[0].level_id
                                 }
                                 //generate token 
-                                const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '72h' })
+                                const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: 5*60 })
                                 //resolve token to user(FE)
                                 resolve({
                                     user_id: data[0].id,

@@ -66,9 +66,10 @@ module.exports = {
                     decodedToken = jsonwebtoken.verify(result, process.env.SECRET_KEY)
                     //asign decodedToken to req
                     req.decodedToken = decodedToken
+                    
                     next() //meneruskan ke proses selanjutnya
                 } catch (err) {
-                    res.json({
+                    res.status(401).json({
                         msg: `Token invalid, wrong SECRET_KEY`
                     })
                 }
