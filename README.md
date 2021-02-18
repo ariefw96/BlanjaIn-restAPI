@@ -85,7 +85,7 @@ React Native
 [`BlanjaIn-React-Native`](https://github.com/ariefw96/BlanjaIn-React-Native)
 
 React Js
-[`BlanjaIn-ReactJs`] (https://github.com/ariefw96/BlanjaIn-React)
+[`BlanjaIn-ReactJs`](https://github.com/ariefw96/BlanjaIn-React)
 
 For more information about documentation, check it out below ! 
 
