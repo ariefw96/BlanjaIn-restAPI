@@ -1,4 +1,10 @@
 # blanja-REST-API
+
+- [About Project](#about-project)
+- [Requirements](#requirements)
+- [Getting started](#getting-started)
+- [Related Project](#related-project)
+- 
 ## About project
 
 this project is a simple implementation of RESTful API using *framework* ExpressJS and MySQL *database* made for for <a href="blanja-proto.netlify.app">BlanjaIn</a> website
@@ -70,6 +76,16 @@ yarn add express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator so
 5. Dont forget to turn on server for MySQL database
 6. Type `yarn start` or `npm start` to run this project
 7. Happy coding!
+
+## Related Project
+
+Some Project that using this restful-API
+
+React Native
+[`BlanjaIn-React-Native`](https://github.com/ariefw96/BlanjaIn-React-Native)
+
+React Js
+[`BlanjaIn-ReactJs`] (https://github.com/ariefw96/BlanjaIn-React)
 
 For more information about documentation, check it out below ! 
 
