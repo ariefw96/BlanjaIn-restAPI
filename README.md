@@ -79,7 +79,7 @@ yarn add express mysql morgan bcrypt jsonwebtoken fs nodemailer otp-generator so
 
 ## Related Project
 
-Some Project that using this restful-API
+Some Project that using this **restful-API**
 
 React Native
 [`BlanjaIn-React-Native`](https://github.com/ariefw96/BlanjaIn-React-Native)
